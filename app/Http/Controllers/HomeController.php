@@ -62,6 +62,7 @@ class HomeController extends Controller
     {
 
 
+
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
@@ -146,7 +147,7 @@ class HomeController extends Controller
 
     public function log()
     {
-
+dd(123);
 
         return view('auth.login');
     }
@@ -194,57 +195,57 @@ class HomeController extends Controller
 
 
     public function update(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $user = Auth::user();
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
 
-    // --- Update image only if uploaded ---
-    if ($request->hasFile('image')) {
-        // Delete old user image if exists
-        if ($user->image && file_exists(public_path($user->image))) {
-            unlink(public_path($user->image));
-        }
-
-        $image = $request->file('image');
-        $imageName = time() . '_image.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
-        $user->image = 'images/' . $imageName;
-    }
-
-    $user->save();
-
-    // --- Update related employee record ---
-    if ($user->employee_id) {
-        $employee = \App\Models\Employee::find($user->employee_id);
-        if ($employee) {
-            // Split full name into first and last name
-            $nameParts = explode(' ', $user->name, 2);
-            $employee->first_name = $nameParts[0];
-            $employee->last_name = isset($nameParts[1]) ? $nameParts[1] : '';
-
-            // Update employee image only if a new one was uploaded
-            if ($request->hasFile('image')) {
-                // Delete old employee image if exists
-                if ($employee->image && file_exists(public_path($employee->image))) {
-                    unlink(public_path($employee->image));
-                }
-
-                $employee->image = $user->image; // same image path as user's
+        // --- Update image only if uploaded ---
+        if ($request->hasFile('image')) {
+            // Delete old user image if exists
+            if ($user->image && file_exists(public_path($user->image))) {
+                unlink(public_path($user->image));
             }
 
-            $employee->save();
+            $image = $request->file('image');
+            $imageName = time() . '_image.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $user->image = 'images/' . $imageName;
         }
-    }
 
-    return redirect()->route('profile.update')->with('success', 'Profile updated successfully.');
-}
+        $user->save();
+
+        // --- Update related employee record ---
+        if ($user->employee_id) {
+            $employee = \App\Models\Employee::find($user->employee_id);
+            if ($employee) {
+                // Split full name into first and last name
+                $nameParts = explode(' ', $user->name, 2);
+                $employee->first_name = $nameParts[0];
+                $employee->last_name = isset($nameParts[1]) ? $nameParts[1] : '';
+
+                // Update employee image only if a new one was uploaded
+                if ($request->hasFile('image')) {
+                    // Delete old employee image if exists
+                    if ($employee->image && file_exists(public_path($employee->image))) {
+                        unlink(public_path($employee->image));
+                    }
+
+                    $employee->image = $user->image; // same image path as user's
+                }
+
+                $employee->save();
+            }
+        }
+
+        return redirect()->route('profile.update')->with('success', 'Profile updated successfully.');
+    }
 
 
 
@@ -283,15 +284,15 @@ class HomeController extends Controller
     public function dashboard()
     {
 
-      
+
 
         $user = Auth()->user();
 
-        
-         if ($user->role === 'Employee' && !Onboarding::where('user_id', $user->id)->exists()) {
-        return redirect()->route('onboarding.create');
-    }
-       
+
+        if ($user->role === 'Employee' && !Onboarding::where('user_id', $user->id)->exists()) {
+            return redirect()->route('onboarding.create');
+        }
+
 
         // Get total count of employees
         $totalEmployees = Employee::count();
@@ -405,9 +406,6 @@ class HomeController extends Controller
 
         // Check if created_at is more than 24 hours ago from now
         $documents = ($employee->created_at && $employee->created_at->diffInHours(now()) >= 24) ? [] : ($employee->documents ? json_decode($employee->documents, true) : []);
-
-
-
 
 
 
