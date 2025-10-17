@@ -25,7 +25,7 @@
     }
     
     .nav-logo {
-        padding: 20px 15px;
+        padding: 8px 7px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -36,26 +36,7 @@
         font-size: 1.5rem;
     }
     
-    .profile-info {
-        padding: 20px 15px;
-         background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(58, 123, 213, 0.9) 100%) !important;
-        background: rgba(255, 255, 255, 0.05);
-        margin: 10px 15px;
-        border-radius: 12px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
     
-    .user-info {
-        display: flex;
-        align-items: center;
-        background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(58, 123, 213, 0.9) 100%) !important;
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        position: relative;
-        overflow: hidden;
-    }
     
     .user-info::before {
         content: '';
@@ -199,7 +180,7 @@
       .profile-info {
         padding: 20px 15px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.05);
+        background:  linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)!important;
         margin: 10px 15px;
         border-radius: 12px;
         backdrop-filter: blur(10px);
@@ -209,7 +190,7 @@
     .user-info {
         display: flex;
         align-items: center;
-        background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(58, 123, 213, 0.9) 100%) !important;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)!important;
         padding: 15px;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -226,13 +207,6 @@
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     }
-    
-   
-
-
-  
-    
-   
     
     .profile-img:hover img {
         transform: scale(1.1);
@@ -328,6 +302,42 @@
             padding: 4px 10px;
         }
     }
+
+/* Sidebar scrollbar - professional style */
+.sidebar-wrapper {
+    overflow-y: auto; /* Only this div scrolls */
+}
+
+/* Track (background) */
+.sidebar-wrapper::-webkit-scrollbar {
+    width: 8px; /* thinner scrollbar */
+}
+
+.sidebar-wrapper::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* subtle track */
+    border-radius: 10px;
+}
+
+/* Thumb (the draggable part) */
+.sidebar-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); /* subtle, blends with sidebar */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Thumb hover effect */
+.sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4); /* stands out on hover */
+}
+
+/* Optional: minimal scrollbar for Firefox */
+.sidebar-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) rgba(0,0,0,0.1);
+}
+
+
+
 </style>
 
 <div class="sidebar-wrapper sidebar-theme" style="width: 260px;">
