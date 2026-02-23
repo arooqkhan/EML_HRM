@@ -141,10 +141,10 @@ class HomeController extends Controller
 
 
         // Get total count of employees
-        $totalEmployees = Employee::count();
+        $totalEmployees = Employee::where('role', '!=', 'admin')->count();
 
         // Get the total sum of salaries
-        $totalSalary = Employee::sum('salary');
+        $totalSalary = Employee::where('role', '!=', 'admin')->sum('salary');
 
         $totalExpense = Expense::sum('price');
 
