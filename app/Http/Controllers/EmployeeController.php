@@ -40,6 +40,9 @@ class EmployeeController extends Controller
         // Retrieve the logged-in user's role
         $user = auth()->user();
 
+
+     
+
         if ($user->role === 'admin' || $user->role === 'HR' || $user->role === 'Accountant') {
             // If the user is an admin, show all employees with pagination
             $employees = Employee::orderBy('created_at', 'desc')->get();
@@ -59,6 +62,10 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+
+
+       $roles = Role::where('name', '!=', 'Admin')->get();
+       
         // Fetch the highest employee_id from the employees table
         $maxEmployeeId = DB::table('employees')
             ->select(DB::raw('MAX(CAST(SUBSTRING(employee_id, 4, LENGTH(employee_id) - 3) AS UNSIGNED)) as max_id'))
@@ -69,7 +76,7 @@ class EmployeeController extends Controller
 
         $branches = Branch::all();
 
-        return view('admin.pages.employee.create', compact('nextEmployeeId','branches'));
+        return view('admin.pages.employee.create', compact('nextEmployeeId','branches','roles'));
     }
 
     /**
@@ -111,6 +118,9 @@ class EmployeeController extends Controller
             'password' => 'required|string|min:8',
             'documents' => 'nullable|array',
             'documents.*' => 'string|max:255',
+            'total_annual_leave' => 'required|numeric|min:0',
+            'used_annual_leave' => 'required|numeric|min:0',
+            'remain_annual_leave' => 'required|numeric|min:0',
         ]);
 
         // Handle image upload if provided
@@ -191,12 +201,18 @@ public function show($id)
      */
     public function edit($id)
     {
-        // Fetch the employee and eager load the associated user
-        $employee = Employee::with('user')->findOrFail($id);
 
-          $branches = Branch::all();
 
-        return view('admin.pages.employee.edit', compact('employee','branches'));
+       $roles = Role::where('name', '!=', 'Admin')->get();
+        // Fetch the employee and eager load the associated user and branch
+        $employee = Employee::with(['user', 'branchDetail'])->findOrFail($id);
+
+        // Resolve branch name from branchDetail relation (if any)
+        $branchName = $employee->branchDetail ? $employee->branchDetail->name : null;
+
+        $branches = Branch::all();
+
+        return view('admin.pages.employee.edit', compact('employee', 'branches', 'branchName', 'roles'));
     }
     /**
      * Update the specified resource in storage.
@@ -314,6 +330,9 @@ public function show($id)
             'ninumber' => 'sometimes|string|max:15',
             'visa' => 'nullable',
             'visadate' => 'nullable',
+            'total_annual_leave' => 'sometimes|numeric|min:0',
+            'used_annual_leave' => 'sometimes|numeric|min:0',
+            'remain_annual_leave' => 'sometimes|numeric|min:0',
         ]);
 
         // Handle the profile image upload if provided

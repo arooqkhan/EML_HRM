@@ -1,34 +1,35 @@
 <?php
 
-use App\Models\Leave;
-use App\Models\Expense;
+use App\Http\Controllers\AccouncementDocumentController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AnnualLeaveController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseConttroller;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\PayRollController;
+use App\Http\Controllers\PaySlipController;
+use App\Http\Controllers\PayslipUploadController;
+use App\Http\Controllers\PensionController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RotaController;
+use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
 use App\Models\Attendance;
+use App\Models\Expense;
+use App\Models\Leave;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\RotaController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LeaveController;
-use App\Http\Controllers\ShiftController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\PayRollController;
-use App\Http\Controllers\PaySlipController;
-use App\Http\Controllers\PensionController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\ExpenseConttroller;
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\OnboardingController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\PayslipUploadController;
-use App\Http\Controllers\AccouncementDocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +113,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('/announcementdocument/status/{id}', [AccouncementDocumentController::class, 'updateStatus'])->name('announcementdocument.updateStatus');
 
     Route::resource('leave', LeaveController::class);
+
+    Route::resource('annualleave', AnnualLeaveController::class);
+
+
     Route::resource('attendance', AttendanceController::class);
 
     Route::resource('payroll', PayRollController::class);
