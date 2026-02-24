@@ -102,7 +102,18 @@ class DocumentController extends Controller
 
          $employees = Employee::where('role', '!=', 'admin')->get();
 
-        return view('admin.pages.document.create', compact('employees', 'title', 'id','first_name','last_name'));
+         $user = auth()->user();
+         $hideSidebar = false;
+         if ($user->role !== 'admin' && $user->role !== 'HR' && $user->role !== 'Accountant') {
+             $employee = \App\Models\Employee::find($user->employee_id);
+             $uploadedDocs = \App\Models\Document::where('employee_id', $employee->id)->pluck('name')->toArray();
+             $pendingDocs = array_diff($employee->documents ?? [], $uploadedDocs);
+             if (count($pendingDocs) > 0) {
+                 $hideSidebar = true;
+             }
+         }
+
+        return view('admin.pages.document.create', compact('employees', 'title', 'id','first_name','last_name', 'hideSidebar'));
     }
 
 
@@ -150,6 +161,19 @@ class DocumentController extends Controller
         DB::table('accouncement_documents')
             ->where('employee_id', $request->input('id'))
             ->update(['status' => 1]);
+    }
+
+    // Check if user is employee and has pending documents
+    $user = auth()->user();
+    if ($user->role != 'admin' && $user->role != 'HR' && $user->role != 'Accountant') {
+        $employee = Employee::find($user->employee_id);
+        $uploadedDocs = Document::where('employee_id', $employee->id)->pluck('name')->toArray();
+        $pendingDocs = array_diff($employee->documents ?? [], $uploadedDocs);
+        if (count($pendingDocs) > 0) {
+            return redirect()->route('firstdocument.index')->with('success', 'Document uploaded successfully!');
+        } else {
+            return redirect()->route('dashboard')->with('success', 'All documents uploaded successfully!');
+        }
     }
 
     // Redirect back with a success message

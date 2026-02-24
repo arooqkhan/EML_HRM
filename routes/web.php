@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseConttroller;
+use App\Http\Controllers\FirstUploadDocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\OnboardingController;
@@ -212,6 +213,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('contacts', [ContactController::class, 'index'])->name('contacts');
 
     Route::resource('onboarding', OnboardingController::class);
+
+    Route::resource('firstdocument', FirstUploadDocumentController::class);
    
 
 

@@ -38,7 +38,9 @@
     <!--  END LOADER -->
 
     <!--  BEGIN NAVBAR  -->
+    @if(!isset($hideSidebar) || !$hideSidebar)
     @include('admin.partials.header')
+    @endif
     <!--  END NAVBAR  -->
 
     <!--  BEGIN MAIN CONTAINER  -->
@@ -48,7 +50,9 @@
         <div class="search-overlay"></div>
 
         <!--  BEGIN SIDEBAR  -->
+        @if(!isset($hideSidebar) || !$hideSidebar)
         @include('admin.partials.siderbar')
+        @endif
         <!--  END SIDEBAR  -->
         
         <!--  BEGIN CONTENT AREA  -->

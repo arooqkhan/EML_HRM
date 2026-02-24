@@ -4,20 +4,39 @@
 
 @php
 use App\Models\Onboarding;
+
+use App\Models\Document;
 use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 $hasOnboarding = false;
+$hasDocuments = false;
 
-// Check if user has role 'employee'
-if ($user && $user->role === 'employee') {
-$hasOnboarding = Onboarding::where('user_id', $user->id)->exists();
+if ($user) {
+
+    // Employee onboarding check
+    if ($user->role === 'employee') {
+        $hasOnboarding = Onboarding::where('user_id', $user->id)->exists();
+    }
+
+    // Documents check (employee_id match)
+    $hasDocuments = Document::where('employee_id', $user->employee_id)->exists();
 }
 @endphp
 
+
+{{-- Employee onboarding redirect --}}
 @if($user && $user->role === 'employee' && !$hasOnboarding)
 <script>
     window.location = "{{ route('onboarding.create') }}";
+</script>
+@endif
+
+
+{{-- Non-employee & Non-admin document check --}}
+@if($user && $user->role !== 'employee' && $user->role !== 'admin' && !$hasDocuments)
+<script>
+    window.location = "{{ route('firstdocument.index') }}";
 </script>
 @endif
 
@@ -265,6 +284,7 @@ $hasOnboarding = Onboarding::where('user_id', $user->id)->exists();
                 </div>
             </div>
 
+            @if(!$hasDocuments)
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -294,6 +314,7 @@ $hasOnboarding = Onboarding::where('user_id', $user->id)->exists();
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <!-- Premium Announcements Section -->

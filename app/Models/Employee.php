@@ -42,6 +42,11 @@ class Employee extends Model
     // ];
 
 
+    protected $casts = [
+    'documents' => 'array',
+];
+
+
     public function leaves()
     {
         return $this->hasMany(Leave::class);
