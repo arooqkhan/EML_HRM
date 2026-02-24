@@ -222,7 +222,9 @@
         </div>
 
         @else
+        @if($employee->role == 'Employee')
         <div class="alert alert-warning">No Onboarding record found for this employee.</div>
+        @endif
         @endif
     </div>
 </div>
