@@ -690,7 +690,7 @@
                     </div>
                 </a>
             </li>
- @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR' || auth()->user()->role == 'Manager')
+ @if(auth()->user()->role != 'Employee')
           <li class="menu">
     <a href="{{route('annualleave.index')}}" 
        aria-expanded="false" 
@@ -737,7 +737,7 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR' || auth()->user()->role == 'Manager')
+           @if(auth()->user()->role != 'Employee')
             <li class="menu">
                 <a href="{{route('payslipupload.index')}}" aria-expanded="false" class="dropdown-toggle {{ request()->routeIs('payslipupload.index') ? 'active' : '' }}">
                     <div class="">
@@ -779,7 +779,7 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR' || auth()->user()->role == 'Manager')
+          @if(auth()->user()->role != 'Employee')
             <li class="menu">
                 <a href="{{ route('expenses.index') }}" aria-expanded="false" class="dropdown-toggle {{ request()->routeIs('expenses.index') ? 'active' : '' }}">
                     <div class="">
@@ -825,7 +825,7 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR')
+          @if(auth()->user()->role != 'Employee')
             <li class="menu">
                 <a href="{{ route('roles.index') }}" aria-expanded="false" class="dropdown-toggle {{ request()->routeIs('roles.index') ? 'active' : '' }}">
                     <div class="">

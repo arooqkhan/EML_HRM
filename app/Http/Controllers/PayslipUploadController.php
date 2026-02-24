@@ -28,6 +28,7 @@ class PayslipUploadController extends Controller
      */
     public function index()
     {
+        
         // Get the logged-in user
         $loggedInUser = auth()->user();
     

@@ -91,51 +91,53 @@
                         <th class="text-center" style="width: 320px;">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @forelse($unassignedEmployees as $employee)
-                        <tr class="emp-row" id="employee-row-{{ $employee->employee_id }}">
-                            <td><strong style="color: #0f172a;">#{{ $employee->employee_id }}</strong></td>
-                            <td>
-                                <strong style="color: #1e293b; font-weight: 600;">{{ $employee->first_name }} {{ $employee->last_name }}</strong>
-                            </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center gap-2" style="flex-wrap: nowrap;">
-                                <!-- Upload PDF button -->
-                                    <a href="{{ route('payslipupload.create') }}" class="btn btn-secondary btn-sm" style="white-space: nowrap;">
-                                        <i class="fas fa-upload me-1"></i>Upload PDF
-                                    </a>
+             <tbody>
+    @forelse($unassignedEmployees as $employee)
+        @if($employee->role !== 'admin') <!-- Skip admin users -->
+            <tr class="emp-row" id="employee-row-{{ $employee->employee_id }}">
+                <td><strong style="color: #0f172a;">#{{ $employee->employee_id }}</strong></td>
+                <td>
+                    <strong style="color: #1e293b; font-weight: 600;">{{ $employee->first_name }} {{ $employee->last_name }}</strong>
+                </td>
+                <td class="text-center">
+                    <div class="d-flex justify-content-center align-items-center gap-2" style="flex-wrap: nowrap;">
+                        <!-- Upload PDF button -->
+                        <a href="{{ route('payslipupload.create') }}" class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                            <i class="fas fa-upload me-1"></i>Upload PDF
+                        </a>
 
-                                <!-- Unassign Document Dropdown -->
-                                <div class="btn-group">
-                                        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="white-space: nowrap;">
-                                            <i class="fas fa-link me-1"></i>Unassign Document
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        @if(isset($unassignedPdfsByEmployee[$employee->employee_id]) && count($unassignedPdfsByEmployee[$employee->employee_id]) > 0)
-                                            @foreach($unassignedPdfsByEmployee[$employee->employee_id] as $pdf)
-                                                <li>
-                                                    <button type="button" class="dropdown-item" onclick="unassignDocument('{{ $employee->employee_id }}', '{{ basename($pdf) }}')">
-                                                            <i class="fas fa-file-pdf me-2"></i>{{ basename($pdf) }}
-                                                    </button>
-                                                </li>
-                                            @endforeach
-                                        @else
-                                            <li><span class="dropdown-item text-muted">No unassigned PDFs</span></li>
-                                        @endif
-                                    </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center" style="padding: 60px 20px !important;">
-                                <i class="fas fa-users fa-4x mb-3" style="color: #cbd5e1;"></i>
-                                <p style="font-size: 1.1rem; color: #94a3b8; margin: 0;">No unassigned employees found for this month.</p>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                        <!-- Unassign Document Dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="white-space: nowrap;">
+                                <i class="fas fa-link me-1"></i>Unassign Document
+                            </button>
+                            <ul class="dropdown-menu">
+                                @if(isset($unassignedPdfsByEmployee[$employee->employee_id]) && count($unassignedPdfsByEmployee[$employee->employee_id]) > 0)
+                                    @foreach($unassignedPdfsByEmployee[$employee->employee_id] as $pdf)
+                                        <li>
+                                            <button type="button" class="dropdown-item" onclick="unassignDocument('{{ $employee->employee_id }}', '{{ basename($pdf) }}')">
+                                                <i class="fas fa-file-pdf me-2"></i>{{ basename($pdf) }}
+                                            </button>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li><span class="dropdown-item text-muted">No unassigned PDFs</span></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        @endif
+    @empty
+        <tr>
+            <td colspan="3" class="text-center" style="padding: 60px 20px !important;">
+                <i class="fas fa-users fa-4x mb-3" style="color: #cbd5e1;"></i>
+                <p style="font-size: 1.1rem; color: #94a3b8; margin: 0;">No unassigned employees found for this month.</p>
+            </td>
+        </tr>
+    @endforelse
+</tbody>
             </table>
         </div>
     </div>

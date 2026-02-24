@@ -554,109 +554,87 @@
         
         <!-- Update Profile Tab Content -->
         <div id="updateProfile" class="tab-content active">
-            <div class="profile-main-content">
-                <!-- Left Column - Upload Documents -->
-                <div class="upload-documents-section">
-                    <h3>Uploaded Documents</h3>
-                    <div class="document-list">
-                        @if($employee && $employee->documents && $employee->documents->count() > 0)
-                            @foreach($employee->documents->take(5) as $doc)
-                                <div class="document-item">
-                                    <span>{{ $doc->title ?? 'Document' }}</span>
-                                    <i class="fas fa-times document-delete"></i>
-                                </div>
-                            @endforeach
-                        @else
-                            <p style="color: #64748b; font-size: 0.9rem; margin: 0;">No documents uploaded</p>
+            <div class="row">
+                <!-- Left Column - Profile Information -->
+                <div class="col-md-6">
+                    <div class="profile-info-card">
+                        <h3>Profile Information</h3>
+                        
+                        <div class="info-row">
+                            <div class="info-label">Employee ID</div>
+                            <div class="info-value">{{ $user->employee_id ?? ($employee->employee_id ?? 'N/A') }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">
+                                {{ $user->email }}
+                                <i class="fas fa-pencil-alt edit-icon"></i>
+                            </div>
+                        </div>
+                        
+                        @if($employee)
+                            <div class="info-row">
+                                <div class="info-label">Phone</div>
+                                <div class="info-value">{{ $employee->number ?? 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Date of Birth</div>
+                                <div class="info-value">{{ $employee->dob ? date('Y-m-d', strtotime($employee->dob)) : 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Gender</div>
+                                <div class="info-value">{{ $employee->gender ?? 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Department</div>
+                                <div class="info-value">{{ $employee->department ?? 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Designation</div>
+                                <div class="info-value">{{ $employee->designation ?? 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Joining Date</div>
+                                <div class="info-value">{{ $employee->joining_date ? date('Y-m-d', strtotime($employee->joining_date)) : 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Address</div>
+                                <div class="info-value">{{ $employee->address ?? 'N/A' }}</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">NI Number</div>
+                                <div class="info-value">{{ $employee->ninumber ?? 'N/A' }}</div>
+                            </div>
                         @endif
                     </div>
-                    <button class="upload-btn" onclick="document.getElementById('documentUpload').click()">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        Upload Now
-                    </button>
-                    <input type="file" id="documentUpload" style="display: none;" multiple>
                 </div>
                 
-                <!-- Right Column - Profile Information -->
-                <div class="profile-info-card">
-                    <h3>Profile Information</h3>
-                    
-                    <div class="info-row">
-                        <div class="info-label">Employee ID</div>
-                        <div class="info-value">{{ $user->employee_id ?? ($employee->employee_id ?? 'N/A') }}</div>
-                    </div>
-                    
-                    <div class="info-row">
-                        <div class="info-label">Email</div>
-                        <div class="info-value">
-                            {{ $user->email }}
-                            <i class="fas fa-pencil-alt edit-icon"></i>
-                        </div>
-                    </div>
-                    
-                    @if($employee)
-                        <div class="info-row">
-                            <div class="info-label">Phone</div>
-                            <div class="info-value">{{ $employee->number ?? 'N/A' }}</div>
-                        </div>
+                <!-- Right Column - Edit Profile Form -->
+                <div class="col-md-6">
+                    <div class="form-section">
+                        <h3 style="color: #0f172a; font-size: 1.25rem; font-weight: 700; margin: 0 0 24px 0; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb;">Edit Profile</h3>
                         
-                        <div class="info-row">
-                            <div class="info-label">Date of Birth</div>
-                            <div class="info-value">{{ $employee->dob ? date('Y-m-d', strtotime($employee->dob)) : 'N/A' }}</div>
+                        @if($errors->any())
+                        <div class="alert-danger-custom">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li><i class="fas fa-exclamation-circle"></i>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
+                        @endif
                         
-                        <div class="info-row">
-                            <div class="info-label">Gender</div>
-                            <div class="info-value">{{ $employee->gender ?? 'N/A' }}</div>
-                        </div>
-                        
-                        <div class="info-row">
-                            <div class="info-label">Department</div>
-                            <div class="info-value">{{ $employee->department ?? 'N/A' }}</div>
-                        </div>
-                        
-                        <div class="info-row">
-                            <div class="info-label">Designation</div>
-                            <div class="info-value">{{ $employee->designation ?? 'N/A' }}</div>
-                        </div>
-                        
-                        <div class="info-row">
-                            <div class="info-label">Joining Date</div>
-                            <div class="info-value">{{ $employee->joining_date ? date('Y-m-d', strtotime($employee->joining_date)) : 'N/A' }}</div>
-                        </div>
-                        
-                        <div class="info-row">
-                            <div class="info-label">Address</div>
-                            <div class="info-value">{{ $employee->address ?? 'N/A' }}</div>
-                        </div>
-                        
-                        <div class="info-row">
-                            <div class="info-label">NI Number</div>
-                            <div class="info-value">{{ $employee->ninumber ?? 'N/A' }}</div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-            
-            <!-- Update Profile Form -->
-            <div class="form-section" style="margin-top: 32px;">
-                <h3 style="color: #0f172a; font-size: 1.25rem; font-weight: 700; margin: 0 0 24px 0; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb;">Edit Profile</h3>
-                
-                @if($errors->any())
-                <div class="alert-danger-custom">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li><i class="fas fa-exclamation-circle"></i>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                
-                <form action="{{ route('profiles.update') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <div class="row">
-                        <div class="col-md-6">
+                        <form action="{{ route('profiles.update') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            
                             <div class="form-group">
                                 <label for="name" class="form-label">Full Name</label>
                                 <input type="text" id="name" name="name" 
@@ -664,9 +642,7 @@
                                     placeholder="Enter your full name"
                                     class="form-input">
                             </div>
-                        </div>
-                        
-                        <div class="col-md-6">
+                            
                             <div class="form-group">
                                 <label for="email" class="form-label">Email Address</label>
                                 <input type="email" id="email" name="email" 
@@ -674,25 +650,25 @@
                                     placeholder="Enter your email address"
                                     class="form-input">
                             </div>
-                        </div>
+                            
+                            <div class="form-group">
+                                <label for="image" class="form-label">Profile Picture</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="image" name="image" 
+                                        accept="image/jpeg,image/png,image/gif,image/jpg"
+                                        class="file-input-custom">
+                                </div>
+                                <span class="file-hint">
+                                    <i class="fas fa-info-circle"></i> Accepted formats: JPG, PNG, GIF (Max: 2MB)
+                                </span>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-save me-2"></i>Update Profile
+                            </button>
+                        </form>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="image" class="form-label">Profile Picture</label>
-                        <div class="file-input-wrapper">
-                            <input type="file" id="image" name="image" 
-                                accept="image/jpeg,image/png,image/gif,image/jpg"
-                                class="file-input-custom">
-                        </div>
-                        <span class="file-hint">
-                            <i class="fas fa-info-circle"></i> Accepted formats: JPG, PNG, GIF (Max: 2MB)
-                        </span>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">
-                        <i class="fas fa-save me-2"></i>Update Profile
-                    </button>
-                </form>
+                </div>
             </div>
         </div>
         

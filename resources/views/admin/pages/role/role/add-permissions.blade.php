@@ -35,13 +35,39 @@
                 @endif
 
 
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Role : {{ $role->name }}
-                            <a href="{{ url('roles') }}" class="btn btn-danger float-end">Back</a>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const selectAllBtn = document.getElementById('selectAllBtn');
+                        const checkboxes = document.querySelectorAll('.permission-checkbox');
+
+                        function updateButtonText() {
+                            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                            selectAllBtn.textContent = allChecked ? 'DeSelect All' : 'Select All';
+                        }
+
+                        // Initial check
+                        updateButtonText();
+
+                        selectAllBtn.addEventListener('click', function() {
+                            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                            checkboxes.forEach(cb => cb.checked = !allChecked);
+                            updateButtonText();
+                        });
+
+                        // Update button text when individual checkboxes change
+                        checkboxes.forEach(cb => {
+                            cb.addEventListener('change', updateButtonText);
+                        });
+                    });
+                </script>
+
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header  text-white">
+                        <h4 class="mb-0">Role : {{ $role->name }}
+                            <a href="{{ url('roles') }}" class="btn btn-light float-end">Back</a>
                         </h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-4">
 
                         <form action="{{ url('roles/'.$role->id.'/give-permissions') }}" method="POST">
                             @csrf
@@ -53,14 +79,19 @@
                                 @enderror
 
                                 <label for="">Permissions</label>
+                                <div class="mb-3">
+                                    <button type="button" id="selectAllBtn" class="btn btn-secondary">Select All</button>
+                                </div>
 
                                 <div class="row">
                                     @foreach ($permissions as $permission)
-                                    <div class="col-md-2">
-                                        <label>
-                                            <input type="checkbox" name="permission[]" value="{{ $permission->name }}" {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }} />
-                                            {{ $permission->name }}
-                                        </label>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input permission-checkbox" type="checkbox" name="permission[]" value="{{ $permission->name }}" id="perm-{{ $permission->id }}" {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }} />
+                                            <label class="form-check-label" for="perm-{{ $permission->id }}">
+                                                {{ $permission->name }}
+                                            </label>
+                                        </div>
                                     </div>
                                     @endforeach
                                 </div>
