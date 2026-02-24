@@ -77,15 +77,14 @@ public function index(Request $request)
     {
         $user = auth()->user(); // Get the currently authenticated user
 
-        if ($user->role === 'admin') {
-            // Admin sees all employees
-            $employees = Employee::all(['id', 'first_name', 'last_name']);
-        } else {
-            // Non-admin sees all employees, including themselves
-            $employees = Employee::whereIn('id', [$user->employee_id])
-                ->orWhere('id', $user->employee_id)
-                ->get(['id', 'first_name', 'last_name']);
-        }
+        if ($user->role === 'Employee') {
+    
+    $employees = Employee::where('id', $user->employee_id)
+        ->get(['id', 'first_name', 'last_name']);
+} else {
+   
+    $employees = Employee::where('role', '!=', 'admin')->get(['id', 'first_name', 'last_name']);
+}
 
         return view('admin.pages.leave.create', compact('employees'));
     }

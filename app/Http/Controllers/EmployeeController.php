@@ -43,13 +43,13 @@ class EmployeeController extends Controller
 
      
 
-        if ($user->role === 'admin' || $user->role === 'HR' || $user->role === 'Accountant') {
-            // If the user is an admin, show all employees with pagination
-            $employees = Employee::orderBy('created_at', 'desc')->get();
-        } else {
-            // If the user is not an admin, show only the logged-in user's employee record
-            $employees = Employee::where('id', $user->employee_id)->get();
-        }
+        if ($user->role === 'Employee') {
+    
+         $employees = Employee::where('id', $user->employee_id)->get();
+} else {
+   
+    $employees = Employee::orderBy('created_at', 'desc')->get();
+}
 
         $branches = Branch::all();
 

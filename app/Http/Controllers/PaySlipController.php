@@ -34,7 +34,7 @@ class PaySlipController extends Controller
      */
     public function index()
 {
-    $employees = Employee::all(); 
+    $employees = Employee::where('role', '!=', 'admin')->get(); 
     return view('admin.pages.payslip.index', compact('employees'));
 }
 

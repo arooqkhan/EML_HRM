@@ -52,7 +52,7 @@ public function index(Request $request)
         $endDate = $today->copy()->endOfWeek();
     }
 
-    $allEmployees = Employee::all();
+    $allEmployees = Employee::where('role', '!=', 'admin')->get();
 
     // Get the authenticated user
     $user = auth()->user();

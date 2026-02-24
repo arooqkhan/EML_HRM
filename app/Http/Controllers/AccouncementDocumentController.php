@@ -43,7 +43,7 @@ class AccouncementDocumentController extends Controller
                  ->get();
          }
      
-         $employees = Employee::all();
+         $employees = Employee::where('role', '!=', 'admin')->get();
      
          // Return the view with the data
          return view('admin.pages.accouncementdocument.index', compact('accouncementdocuments','employees'));
@@ -55,7 +55,7 @@ class AccouncementDocumentController extends Controller
      */
     public function create()
     {
-        $employees = Employee::all();
+        $employees = Employee::where('role', '!=', 'admin')->get();
         return view('admin.pages.accouncementdocument.create',compact('employees'));
     }
 

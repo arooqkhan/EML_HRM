@@ -53,14 +53,14 @@ class AttendanceController extends Controller
     
     $user = auth()->user(); // Get the currently authenticated user
 
-    if ($user->role === 'admin' || $user->role === 'HR' || $user->role === 'Accountant') {
-        // Admin sees all employees
-        $employees = Employee::all(['id', 'first_name', 'last_name']);
-    } else {
-        // Non-admin sees only their own record
-        $employees = Employee::where('id', $user->employee_id)
-                             ->get(['id', 'first_name', 'last_name']);
-    }
+   if ($user->role === 'Employee') {
+    // Employee sirf apna record dekhe
+    $employees = Employee::where('id', $user->employee_id)
+        ->get(['id', 'first_name', 'last_name']);
+} else {
+    // Baaki sab roles sab employees dekhein
+    $employees = Employee::where('role', '!=', 'admin')->get(['id', 'first_name', 'last_name']);
+}
 
     return view('admin.pages.attendance.create', compact('employees'));
 }

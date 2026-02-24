@@ -59,7 +59,7 @@ class ShiftController extends Controller
      */
     public function create()
     {
-        $employees = Employee::all();
+        $employees = Employee::where('role', '!=', 'admin')->get(['id', 'first_name', 'last_name']);
         return view('admin.pages.shift.create', compact('employees'));
     }
 
@@ -107,7 +107,7 @@ class ShiftController extends Controller
     public function edit(string $id)
     {
         $shift = Shift::findOrFail($id);
-        $employees = Employee::all();
+        $employees = Employee::where('role', '!=', 'admin')->get(['id', 'first_name', 'last_name']);
         return view('admin.pages.shift.edit', compact('shift', 'employees'));
     }
 

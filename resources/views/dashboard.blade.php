@@ -268,7 +268,7 @@ $hasOnboarding = Onboarding::where('user_id', $user->id)->exists();
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-folder-open me-2"></i>Your Documents
+                        <i class="fas fa-folder-open me-2"></i>Please Upload Your Documents as soon as possible
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">

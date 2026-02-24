@@ -12,7 +12,17 @@ class AnnualLeaveController extends Controller
      */
     public function index()
     {
-        $annualLeaves = Employee::select('id', 'first_name', 'last_name', 'total_annual_leave', 'used_annual_leave', 'remain_annual_leave')->orderBy('id','desc')->get();
+        $annualLeaves = Employee::select(
+        'id',
+        'first_name',
+        'last_name',
+        'total_annual_leave',
+        'used_annual_leave',
+        'remain_annual_leave'
+    )
+    ->where('role', '!=', 'admin')
+    ->orderBy('id', 'desc')
+    ->get();
 
       
         return view('admin.pages.annualleave.index', compact('annualLeaves'));

@@ -47,7 +47,8 @@ class DocumentController extends Controller
                 ->get();
         }
 
-        $employees = Employee::all();
+        $employees = Employee::where('role', '!=', 'admin')->get();
+      
 
         return view('admin.pages.document.index', compact('documents','employees'));
     }
@@ -74,7 +75,7 @@ class DocumentController extends Controller
         // Check if no documents are found
         $noData = $documents->isEmpty();
        
-        $employees = Employee::all();
+       $employees = Employee::where('role', '!=', 'admin')->get();
         // Return the view with the documents and the noData flag
         return view('admin.pages.document.index', compact('documents', 'noData','employees'));
     }
@@ -86,7 +87,7 @@ class DocumentController extends Controller
      */
     public function create()
 {
-    $employees = Employee::all();
+     $employees = Employee::where('role', '!=', 'admin')->get();
     $id = null;
     $first_name = null;
     $last_name = null;
@@ -99,7 +100,7 @@ class DocumentController extends Controller
     {
       
 
-        $employees = Employee::all();
+         $employees = Employee::where('role', '!=', 'admin')->get();
 
         return view('admin.pages.document.create', compact('employees', 'title', 'id','first_name','last_name'));
     }
