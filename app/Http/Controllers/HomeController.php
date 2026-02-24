@@ -241,17 +241,20 @@ class HomeController extends Controller
 
         $user = Auth::user()->employee_id;
 
-        // Fetch the employee details for the logged-in user
-        $employee = Employee::where('id', $user)->first();
+       $employee = Employee::where('id', $user)->first();
 
-        if (!$employee) {
-            return redirect()->route('login')->with('error', 'Employee information not found.');
-        }
+if (!$employee) {
+    return redirect()->route('login')
+        ->with('error', 'Employee information not found.');
+}
 
-        $cho = now()->addHours(24); // Add 24 hours to the current time
+$cho = now()->addHours(24);
 
-        // Check if created_at is more than 24 hours ago from now
-        $documents = ($employee->created_at && $employee->created_at->diffInHours(now()) >= 24) ? [] : ($employee->documents ? json_decode($employee->documents, true) : []);
+// Agar 24 ghante guzar gaye to documents empty
+$documents = ($employee->created_at && 
+              $employee->created_at->diffInHours(now()) >= 24)
+    ? []
+    : ($employee->documents ?? []);
 
 
 
