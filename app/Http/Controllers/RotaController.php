@@ -78,9 +78,9 @@ public function index(Request $request)
     }
 
     // Check if the user is restricted based on their role
-    if (!in_array($user->role, ['admin', 'HR', 'Accountant'])) {
-        $employees->where('id', $user->employee_id);
-    }
+if ($user->role == 'Employee') {
+    $employees->where('id', $user->employee_id);
+}
 
     // Execute the query to get employee data
     $employees = $employees->get();
@@ -152,7 +152,7 @@ public function download(Request $request)
     $authUser = auth()->user()->employee_id;
 
     // Check the user role to restrict access
-    if (!auth()->user()->hasRole(['admin', 'HR','Accountant']) && auth()->user()->employee_id != $employeeId) {
+    if (auth()->user()->hasRole('Employee') && auth()->user()->employee_id != $employeeId) {
         $employees = $authUser ? Employee::where('id', $authUser)->with(['shifts', 'leaves'])->get()
                                : Employee::with(['shifts', 'leaves'])->get();
         return Excel::download(new RotaExport($employees), 'rota_data.csv');

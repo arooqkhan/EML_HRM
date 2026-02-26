@@ -27,7 +27,7 @@ class DocumentController extends Controller
     {
 
         // Retrieve documents based on user role
-        if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant') {
+        if (auth()->user()->role != 'Employee') {
             // Admin retrieves all documents with associated employee details
             $documents = Document::leftJoin('employees', 'documents.employee_id', '=', 'employees.id')
                 ->select('documents.*', 'employees.first_name as employee_first_name', 'employees.last_name as employee_last_name', 'employees.image as employee_image')
@@ -135,7 +135,7 @@ class DocumentController extends Controller
     $document->name = $request->input('name');
 
     // Check if the user is an admin, HR, or Accountant
-    if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant') {
+   if (auth()->user()->role != 'Employee') {
         // If employee_id is provided, assign it to the document
         $document->employee_id = $request->input('employee_id');
     } else {
@@ -202,7 +202,7 @@ class DocumentController extends Controller
 
         // Only load the employees if the logged-in user is an admin, HR, or Accountant
         $employees = [];
-        if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant') {
+        if (auth()->user()->role != 'Employee') {
             $employees = Employee::all(); // Get all employees
         }
 
@@ -216,7 +216,7 @@ class DocumentController extends Controller
         $document = Document::find($docid);
       
         $employees = [];
-        if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant') {
+        if (auth()->user()->role != 'Employee') {
             $employees = Employee::all(); // Get all employees
         }
 
@@ -245,7 +245,7 @@ class DocumentController extends Controller
         $document->name = $request->input('name');
 
         // Check if the user is an admin, HR, or Accountant
-        if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant') {
+        if (auth()->user()->role != 'Employee') {
             // If employee_id is provided, assign it to the document
             $document->employee_id = $request->input('employee_id');
         } else {

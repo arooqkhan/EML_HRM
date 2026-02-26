@@ -122,7 +122,7 @@
                         <th>Additional Duty</th>
                         <th>Note</th>
                         <th class="text-center" style="width: 120px;">Status</th>
-                        @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                       @if(auth()->user()->role != 'Employee')
                         <th class="text-center" style="width: 140px;">Actions</th>
                         @endif
                     </tr>
@@ -174,7 +174,7 @@
                             </span>
                             @endif
                         </td>
-                        @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                        @if(auth()->user()->role != 'Employee')
                         <td class="text-center">
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $shift->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="border: 2px solid #e2e8f0; color: #64748b; padding: 8px 14px; border-radius: 8px; background: #ffffff;">

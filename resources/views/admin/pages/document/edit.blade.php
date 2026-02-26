@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                @if(auth()->user()->role != 'Employee')
                 <div class="row">
                 <div class="col-md-12">
                     <div class="form-group-wrapper">

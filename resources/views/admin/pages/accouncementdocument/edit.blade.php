@@ -25,7 +25,7 @@
                 </div>
 
                 <!-- Check if the logged-in user is an admin, HR, or Accountant -->
-                @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+               @if(auth()->user()->role != 'Employee' )
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">

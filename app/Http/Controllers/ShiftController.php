@@ -58,10 +58,23 @@ class ShiftController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        $employees = Employee::where('role', '!=', 'admin')->get(['id', 'first_name', 'last_name']);
-        return view('admin.pages.shift.create', compact('employees'));
+{
+    $user = auth()->user(); // Logged-in user
+
+   
+
+    if ($user->role === 'Employee') {
+        // Employee ko sirf apni info dikhao
+        $employees = Employee::where('id', $user->employee_id)
+            ->get(['id', 'first_name', 'last_name', 'role']);
+    } else {
+        // Admin ya koi aur → sab show karo except admin
+        $employees = Employee::where('role', '!=', 'admin')
+            ->get(['id', 'first_name', 'last_name', 'role']);
     }
+
+    return view('admin.pages.shift.create', compact('employees'));
+}
 
     /**
      * Store a newly created resource in storage.

@@ -223,7 +223,7 @@
                         </div>
                     </div>
 
-            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+           @if(auth()->user()->role != 'Employee')
                     <!-- Right: Filter Dropdown -->
                     <div class="col-12 col-lg-6 d-flex justify-content-end">
                         <div class="dropdown">

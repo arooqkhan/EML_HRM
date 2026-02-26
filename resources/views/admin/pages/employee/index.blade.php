@@ -20,6 +20,42 @@
     .form-check-inline {
         margin-left: 10px;
     }
+
+
+    /* DataTables wrappers often clip dropdowns */
+.dataTables_wrapper,
+.dataTables_scroll,
+.dataTables_scrollBody,
+.dataTables_scrollHead,
+.table-responsive {
+    overflow: visible !important;
+}
+
+/* If any parent has position/overflow issues */
+.widget-content-area,
+.statbox,
+.widget-content {
+    overflow: visible !important;
+}
+
+/* Dropdown on top */
+.dropdown-menu {
+    z-index: 9999 !important;
+}
+
+</style>
+
+<style>
+    /* Ensure parent containers allow overflow so dropdowns aren't clipped */
+    .statbox, .widget-content, .col-lg-12, .table, .dt-table-hover {
+        overflow: visible !important;
+    }
+
+    /* Make dropdowns appear above other UI elements */
+    .dropdown-menu {
+        z-index: 3000 !important;
+        
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
@@ -160,7 +196,7 @@
                         </td>
                         <td class="text-center">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $employee->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="border: 2px solid #e2e8f0; color: #64748b; padding: 8px 14px; border-radius: 8px; background: #ffffff;">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $employee->id }}" data-toggle="dropdown" data-bs-toggle="dropdown" data-boundary="viewport" data-bs-boundary="viewport" aria-expanded="false" style="border: 2px solid #e2e8f0; color: #64748b; padding: 8px 14px; border-radius: 8px; background: #ffffff;">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $employee->id }}">
@@ -198,8 +234,7 @@
                                         </a>
                                     </li>
 
-                                    @if($employee->role !== 'admin')
-                                        @can('delete employee')
+                                        
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" class="d-inline">
@@ -210,8 +245,8 @@
                                                 </button>
                                             </form>
                                         </li>
-                                        @endcan
-                                    @endif
+                                     
+                                  
                                 </ul>
                             </div>
                         </td>

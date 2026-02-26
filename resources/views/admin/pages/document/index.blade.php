@@ -284,13 +284,15 @@
                             <a href="{{ route('document.create') }}" class="btn btn-secondary" style="white-space: nowrap;">
                                 <i class="fas fa-plus me-2"></i>Add Document
                             </a>
+                            @if(auth()->user()->role != 'Employee')
                             <a href="{{ route('accouncementdocument.index') }}" class="btn btn-secondary" style="white-space: nowrap;">
                                 <i class="fas fa-file-request me-2"></i>Requested Document
                             </a>
+                            @endif
                         </div>
                     </div>
 
-            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+          @if(auth()->user()->role != 'Employee')
                     <!-- Right: Filter Dropdown -->
                     <div class="col-12 col-lg-6 d-flex justify-content-end">
                         <div class="dropdown">
@@ -321,7 +323,7 @@
             @endif
                 </div>
 
-                @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                @if(auth()->user()->role != 'Employee')
                 <!-- Status filters -->
                 <div class="status-filter-group">
                     <span class="status-label">Status:</span>
@@ -390,7 +392,7 @@
 
                         <td class="text-center">
                             @if($document->status == 0)
-                            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                            @if(auth()->user()->role != 'Employee')
                             <button class="btn btn-success btn-sm" onclick="updateStatus({{ $document->id }}, 1)">Accept</button>
                             <button class="btn btn-danger btn-sm" onclick="updateStatus({{ $document->id }}, 2)">Reject</button>
 

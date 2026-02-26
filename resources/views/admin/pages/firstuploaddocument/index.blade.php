@@ -216,9 +216,16 @@
     <div class="main-card">
         <div class="card-header">
             <h3>Documents List</h3>
-            @if(!empty($pendingDocs) && count($pendingDocs) > 0)
-            <span class="badge">{{ count($pendingDocs) }} Document(s)</span>
-            @endif
+            <div style="display:flex; align-items:center; gap:12px;">
+               
+
+                <form id="logout-form-top" action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="upload-btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div class="card-body">
@@ -262,15 +269,24 @@
                     @endforeach
                 </div>
             @else
-                <div class="empty-state">
+                    <div class="empty-state">
                     <div class="empty-icon">
                         <i class="fas fa-check-circle" style="color: #10b981;"></i>
                     </div>
                     <div class="empty-title">All Documents Uploaded!</div>
                     <div class="empty-text">Congratulations! You have successfully uploaded all required documents.</div>
-                    <button class="upload-btn" onclick="window.location.href='{{ route('dashboard') }}'">
-                        <i class="fas fa-home"></i>Go to Dashboard
-                    </button>
+                    <div style="display:flex; gap:12px; align-items:center; justify-content:center;">
+                        <button class="upload-btn" onclick="window.location.href='{{ route('dashboard') }}'">
+                            <i class="fas fa-home"></i>Go to Dashboard
+                        </button>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="upload-btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @endif
         </div>

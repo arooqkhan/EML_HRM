@@ -301,7 +301,7 @@
                     <!-- Employee Filter Row with Quick Range -->
                     <div class="filter-row mb-4">
                         <div class="d-flex align-items-end gap-3 flex-wrap">
-                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                    @if(auth()->user()->role != 'Employee')
                             <div class="filter-group">
                                 <label for="employee_id" class="filter-label">
                                     <i class="fas fa-user me-2"></i>Select Employee:
@@ -423,6 +423,7 @@
                     </thead>
                     <tbody>
                         @foreach($employees as $employee)
+                        @if($employee->role != 'admin')
                         <tr>
                             <td class="bg-warning text-white font-weight-bold" style="position: sticky; left: 0; z-index: 5; width: 180px;">{{ $employee->first_name }} {{ $employee->last_name }}</td>
 
@@ -483,6 +484,7 @@
                             </td>
                             @endforeach
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
