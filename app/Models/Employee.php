@@ -47,6 +47,12 @@ class Employee extends Model
 ];
 
 
+public function getRemainAnnualLeaveAttribute()
+{
+    return $this->total_annual_leave - $this->used_annual_leave;
+}
+
+
     public function leaves()
     {
         return $this->hasMany(Leave::class);

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Mail\LeaveNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class LeaveController extends Controller
 {
@@ -29,6 +30,8 @@ class LeaveController extends Controller
 public function index(Request $request)
 {
     $user = auth()->user();
+
+    
 
     $selectedMonth = $request->input('month');
     $selectedYear = $request->input('year');
@@ -92,24 +95,28 @@ public function index(Request $request)
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
 
-        // Create new Leave instance and populate it with request data
+
+public function store(Request $request)
+{
+    DB::transaction(function () use ($request) {
+
+        // Create new Leave
         $leave = new Leave();
         $leave->employee_id = $request->employee_id;
-        $leave->leave_type = $request->leave_type;
-        $leave->age = $request->duration;
-        $leave->reason = $request->reason;
-        $leave->start_date = $request->start_date;
-        $leave->end_date = $request->end_date;
-        $leave->start_time = $request->start_time;
-        $leave->end_time = $request->end_time;
-        $leave->date = $request->date;
-        $leave->first_half = $request->leave_duration == 'First half' ? 1 : 0;
-        $leave->last_half = $request->leave_duration == 'Second half' ? 1 : 0;
+        $leave->leave_type  = $request->leave_type;
+        $leave->age         = $request->duration; // (field name weird, but keeping your code)
+        $leave->reason      = $request->reason;
+        $leave->start_date  = $request->start_date;
+        $leave->end_date    = $request->end_date;
+        $leave->start_time  = $request->start_time;
+        $leave->end_time    = $request->end_time;
+        $leave->date        = $request->date;
 
+        $leave->first_half  = $request->leave_duration == 'First half' ? 1 : 0;
+        $leave->last_half   = $request->leave_duration == 'Second half' ? 1 : 0;
 
+        // Image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_image.' . $image->getClientOriginalExtension();
@@ -117,21 +124,48 @@ public function index(Request $request)
             $leave->image = 'images/' . $imageName;
         }
 
-
         $leave->save();
+if ($request->leave_type === 'Annual leave') {
 
-        // Get the employee's name using employee_id
+    $daysToAdd = 0;
+
+    if (!empty($request->start_date) && !empty($request->end_date)) {
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end   = Carbon::parse($request->end_date)->startOfDay();
+        $daysToAdd = $start->diffInDays($end) + 1;
+    } elseif (!empty($request->date)) {
+        $daysToAdd = 1;
+        if ($request->leave_duration === 'First half' || $request->leave_duration === 'Second half') {
+            $daysToAdd = 0.5;
+        }
+    }
+
+    if ($daysToAdd > 0) {
+        $daysToAdd = (float) $daysToAdd;
+
+        DB::transaction(function () use ($request, $daysToAdd) {
+
+            // 1) increment used
+            Employee::where('id', $request->employee_id)
+                ->increment('used_annual_leave', $daysToAdd);
+
+            // 2) recompute remain from updated used
+            Employee::where('id', $request->employee_id)->update([
+                'remain_annual_leave' => DB::raw('total_annual_leave - used_annual_leave'),
+            ]);
+        });
+    }
+}
+
+        // Send Email
         $employee = Employee::find($request->employee_id);
         $employeeName = $employee ? $employee->first_name . ' ' . $employee->last_name : 'Unknown Employee';
 
-
-
-        // Send the email with the employee's name and leave details
         Mail::to('hamzakayani371@gmail.com')->send(new LeaveNotification($leave, $employeeName));
+    });
 
-        // Redirect with success message
-        return redirect()->route('leave.index')->with('success', 'Leave request submitted successfully.');
-    }
+    return redirect()->route('leave.index')->with('success', 'Leave request submitted successfully.');
+}
 
 
     public function accept($id)
