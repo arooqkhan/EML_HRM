@@ -64,6 +64,36 @@
 
     </div>
     <div class="statbox widget box box-shadow">
+       
+
+<form method="GET" action="{{ route('annualleave.index') }}" class="mb-3 d-flex gap-2 align-items-center">
+
+    {{-- Employee Dropdown --}}
+    <select name="employee_id" class="form-control" style="max-width:280px;" onchange="this.form.submit()">
+        <option value="">-- All Employees --</option>
+        @foreach($employees as $emp)
+            <option value="{{ $emp->id }}" {{ request('employee_id') == $emp->id ? 'selected' : '' }}>
+                {{ $emp->first_name }} {{ $emp->last_name }}
+            </option>
+        @endforeach
+    </select>
+
+    {{-- Leave Year Dropdown (1 April Based) --}}
+    <select name="leave_year" class="form-control" style="max-width:320px;" onchange="this.form.submit()">
+        <option value="">-- All Leave Years --</option>
+        @foreach($leaveYears as $year)
+            <option value="{{ $year }}" {{ request('leave_year') == $year ? 'selected' : '' }}>
+                1 April {{ $year }} - 31 March {{ $year + 1 }}
+            </option>
+        @endforeach
+    </select>
+
+    {{-- Reset --}}
+    @if(request()->filled('employee_id') || request()->filled('leave_year'))
+        <a href="{{ route('annualleave.index') }}" class="btn btn-secondary btn-sm">Reset</a>
+    @endif
+
+</form>
         <div class="widget-content widget-content-area">
             <table id="style-2" class="table table-striped align-middle style-2 dt-table-hover">
                 <thead>

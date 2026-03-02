@@ -133,17 +133,31 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group-wrapper">
-                        <label for="inputLeaveType"><i class="fas fa-tag me-2"></i>Leave Type</label>
-                        <div class="input-icon-wrapper">
-                            <i class="fas fa-tag"></i>
-                            <input type="text" class="form-control" id="inputLeaveType" name="leave_type" placeholder="Enter Leave Type" value="{{ old('leave_type') }}" required>
-                        </div>
-                        @if ($errors->has('leave_type'))
-                        <span class="text-danger">{{ $errors->first('leave_type') }}</span>
-                        @endif
-                    </div>
+              <div class="col-md-6">
+    <div class="form-group-wrapper">
+        <label for="inputLeaveType">
+            <i class="fas fa-tag me-2"></i>Leave Type
+        </label>
+        <div class="input-icon-wrapper">
+            <i class="fas fa-tag"></i>
+            <select class="form-control" id="inputLeaveType" name="leave_type" required>
+                <option value="" disabled selected>Select Leave Type</option>
+                <option value="Medical leave" {{ old('leave_type') == 'Medical leave' ? 'selected' : '' }}>
+                    Medical leave
+                </option>
+                <option value="Annual leave" {{ old('leave_type') == 'Annual leave' ? 'selected' : '' }}>
+                    Annual leave
+                </option>
+                <option value="Another leave" {{ old('leave_type') == 'Another leave' ? 'selected' : '' }}>
+                    Another leave
+                </option>
+            </select>
+        </div>
+
+        @if ($errors->has('leave_type'))
+            <span class="text-danger">{{ $errors->first('leave_type') }}</span>
+        @endif
+    </div>
 </div>
                 </div>
 

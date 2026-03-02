@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -70,6 +71,13 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
 
+
+protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('leave:reset-annual')
+            ->yearlyOn(4, 1, '00:05')
+            ->withoutOverlapping();
+    }
 
     
 }
