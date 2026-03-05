@@ -96,6 +96,7 @@ if ($user) {
 
 
 
+
 <div class="dashboard-heading">
     <h2>Welcome to Dashboard</h2>
     <p>Overview of your HR management system</p>

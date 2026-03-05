@@ -3,12 +3,12 @@
 
 <div class="statbox widget box box-shadow">
     <div class="widget-content widget-content-area p-3">
-        <a href="{{ route('employee.index') }}" class="btn btn-secondary mb-3">
+        <a href="{{ route('employee.index') }}" class="btn btn-secondary m-3">
             Back
         </a>
 
 
-        <a href="{{ route('employee.download.pdf', $employee->id) }}" class="btn btn-danger mb-3">
+        <a href="{{ route('employee.download.pdf', $employee->id) }}" class="btn btn-danger">
     <i class="fas fa-file-pdf"></i> Download PDF
 </a>
 
@@ -44,7 +44,7 @@
                                     <li class="list-group-item"><strong>Designation:</strong> {{ $employee->designation }}</li>
                                     <li class="list-group-item"><strong>Status:</strong> {{ $employee->employee_status ?? '-' }}</li>
                                     <li class="list-group-item"><strong>Branch:</strong> {{ $employee->branchDetail->name ?? '-' }}</li>
-                                    <li class="list-group-item"><strong>Salary:</strong> {{ $employee->salary ?? '-' }}</li>
+                                    <li class="list-group-item"><strong>Salary:</strong> {{ $employee->salary ?? '-' }} / {{ $employee->salary_type ?? '-' }}</li>
                                     <li class="list-group-item"><strong>Work Shift:</strong> {{ $employee->work_shift ?? '-' }}</li>
                                     <li class="list-group-item"><strong>Joining Date:</strong> {{ $employee->joining_date ?? '-' }}</li>
                                 </ul>

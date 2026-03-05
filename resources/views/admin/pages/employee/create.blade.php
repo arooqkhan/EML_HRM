@@ -402,18 +402,53 @@
                 </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group-wrapper">
-                        <label for="inputSalary"><i class="fas fa-pound-sign me-2"></i>Salary</label>
-                        <div class="input-icon-wrapper">
-                            <i class="fas fa-pound-sign"></i>
-                            <input type="number" class="form-control" id="inputSalary" name="salary" placeholder="Enter Salary" value="{{ old('salary') }}" required>
-                        </div>
-                        @if ($errors->has('salary'))
-                        <span class="text-danger">{{ $errors->first('salary') }}</span>
-                        @endif
-                    </div>
-                </div>
+
+             
+    
+    <!-- Salary Input -->
+    <div class="col-md-3">
+        <div class="form-group-wrapper">
+            <label for="inputSalary">
+                <i class="fas fa-pound-sign me-2"></i>Salary
+            </label>
+            <div class="input-icon-wrapper">
+                <i class="fas fa-pound-sign"></i>
+                <input type="number" 
+                       class="form-control" 
+                       id="inputSalary" 
+                       name="salary" 
+                       placeholder="Enter Salary" 
+                       value="{{ old('salary') }}" 
+                       required>
+            </div>
+            @if ($errors->has('salary'))
+                <span class="text-danger">{{ $errors->first('salary') }}</span>
+            @endif
+        </div>
+    </div>
+
+    <!-- Salary Type Dropdown -->
+    <div class="col-md-3">
+        <div class="form-group-wrapper">
+            <label for="salaryType">
+                <i class="fas fa-calendar-alt me-2"></i>Salary Type
+            </label>
+            <select class="form-control" name="salary_type" id="salaryType" required>
+                <option value="">Select Type</option>
+                <option value="hourly" {{ old('salary_type') == 'hourly' ? 'selected' : '' }}>Hourly</option>
+                <option value="weekly" {{ old('salary_type') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                <option value="monthly" {{ old('salary_type') == 'monthly' ? 'selected' : '' }}>Monthly</option>
+                <option value="yearly" {{ old('salary_type') == 'yearly' ? 'selected' : '' }}>Yearly</option>
+            </select>
+
+            @if ($errors->has('salary_type'))
+                <span class="text-danger">{{ $errors->first('salary_type') }}</span>
+            @endif
+        </div>
+    </div>
+
+
+
                 <div class="col-md-6">
                     <div class="form-group-wrapper">
                         <label for="inputNumber"><i class="fas fa-phone me-2"></i>Contact Number</label>

@@ -42,6 +42,7 @@ class AuthApiController extends Controller
 
     public function login(Request $request)
     {
+       
         // Validate the request input
         $request->validate([
             'email' => 'required|email',

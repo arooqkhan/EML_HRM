@@ -33,8 +33,8 @@ Route::post('login', [AuthApiController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post('attendance/checkinlocation', [ApiAttendanceController::class, 'checkIn']);
-    Route::post('attendance/checkout', [ApiAttendanceController::class, 'checkOut']);
+    Route::post('attendance/checkIn', [ApiAttendanceController::class, 'checkIn']);
+    Route::post('attendance/checkOut', [ApiAttendanceController::class, 'checkOut']);
 
     Route::resource('leaves', ApiLeaveController::class);
 

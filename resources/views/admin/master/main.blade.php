@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+     <link rel="icon" type="image/png" href="https://img.freepik.com/premium-vector/hrm-human-resource-management-icon-label-badge-vector-stock-illustration_100456-10641.jpg">
 @include('admin.partials.style')
 <body class=" layout-boxed">
 <script>

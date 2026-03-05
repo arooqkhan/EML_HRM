@@ -87,9 +87,6 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
 
-     
-
-       
         // Validate the incoming request data
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:30',
@@ -104,6 +101,7 @@ class EmployeeController extends Controller
             'employee_status' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'salary' => 'required|numeric|min:0',
+            'salary_type' => 'required|in:monthly,weekly,hourly,yearly',
             'number' => 'required|string|min:0',
             'emgr_number' => 'required|string|min:0',
             'pension_status' => 'required|in:enroll,notenroll,opt_out,enroll_optout',
@@ -318,6 +316,7 @@ public function show($id)
             'employee_status' => 'sometimes|string|max:255',
             'role' => 'sometimes|string|max:255',
             'salary' => 'sometimes|numeric|min:0',
+            'salary_type' => 'required|in:monthly,weekly,hourly,yearly',
             'number' => 'sometimes|string|min:0',
             'emgr_number' => 'sometimes|string|min:0',
             'pension_status' => 'sometimes  |in:enroll,notenroll,opt_out,enroll_optout',
@@ -446,6 +445,10 @@ public function downloadPDF($id)
     // Download PDF
     return $pdf->download('employee_'.$employee->id.'.pdf');
 }
+
+
+
+
 
 
 

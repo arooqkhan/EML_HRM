@@ -97,6 +97,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
     
+    
 
     Route::get('documents/employee/{employee}', [DocumentController::class, 'showByEmployee'])->name('documents.showByEmployee');
 

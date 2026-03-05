@@ -161,6 +161,6 @@ class ApiLeaveController extends Controller
         // Delete the leave record
         $leave->delete();
     
-        return response()->json(['message' => 'Leave request deleted successfully.']);
+        return response()->json(['message' => 'Leave request deleted successfully.'],201);
     }
 }
