@@ -35,7 +35,7 @@ class ShiftController extends Controller
         $role = auth()->user()->role;
 
         // If the user is admin, HR, or Accountant, retrieve all shifts
-        if (in_array($role, ['admin', 'HR', 'Accountant'])) {
+       if ($role !== 'employee') {
             $shifts = Shift::with('employee')
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -59,6 +59,7 @@ class ShiftController extends Controller
      */
     public function create()
 {
+
     $user = auth()->user(); // Logged-in user
 
    
