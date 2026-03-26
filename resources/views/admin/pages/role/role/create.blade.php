@@ -1,7 +1,8 @@
 @extends('admin.master.main')
 @section('content')
+@include('admin.pages.role.partials.mobile-fixes')
 
-<div class="content">
+<div class="content role-mobile-content">
     @if ($errors->any())
     <ul class="alert alert-warning">
         @foreach ($errors->all() as $error)

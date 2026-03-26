@@ -2,7 +2,7 @@
 <html lang="en">
      <link rel="icon" type="image/png" href="https://img.freepik.com/premium-vector/hrm-human-resource-management-icon-label-badge-vector-stock-illustration_100456-10641.jpg">
 @include('admin.partials.style')
-<body class=" layout-boxed">
+<body class="layout-boxed admin-dashboard-shell">
 <script>
     // Force light mode - remove dark mode
     (function() {
@@ -45,7 +45,7 @@
     <!--  END NAVBAR  -->
 
     <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container " id="container">
+    <div class="main-container admin-main-container" id="container">
 
         <div class="overlay"></div>
         <div class="search-overlay"></div>
@@ -57,7 +57,7 @@
         <!--  END SIDEBAR  -->
         
         <!--  BEGIN CONTENT AREA  -->
-        <div id="content" class="main-content">
+        <div id="content" class="main-content admin-main-content">
             <div class="layout-px-spacing">
 
                 <div class="middle-content container-xxl p-0">

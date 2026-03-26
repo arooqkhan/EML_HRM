@@ -53,6 +53,7 @@ if ($user) {
     .dashboard-heading { margin-bottom: 16px; padding-left: 10px; }
     .dashboard-heading h2 { font-weight: 600; font-size: 2rem; color: #0f172a; letter-spacing: -0.3px; }
     .dashboard-heading p { font-size: 1rem; color: #64748b; }
+    .dashboard-section-title { color: #1e293b; font-weight: 600; }
 
     /* Cards */
     .card { border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.04); background: #fff; }
@@ -64,6 +65,8 @@ if ($user) {
     .stat-card .stats-content .card-title { font-weight: 600; font-size: .9rem; color: #64748b; text-transform: none; letter-spacing: 0; }
     .stat-card .stats-number { font-size: 2rem; font-weight: 700; color: #0f172a; }
     .stat-card .icon-box { width: 56px; height: 56px; border-radius: 12px; background: #eff6ff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; }
+    .stat-card .card-body { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .stat-card .stats-content { min-width: 0; flex: 1; }
 
     /* Tables */
     .table { width: 100%; margin-bottom: 0; }
@@ -91,6 +94,82 @@ if ($user) {
     .page-link { color: #1d4ed8; border-color: #e5e7eb; padding: 10px 14px; border-radius: 8px; }
     .page-link:hover { background: #eef2ff; color: #1d4ed8; }
     .page-item.active .page-link { background: #1d4ed8; border-color: #1d4ed8; color: #fff; }
+
+    @media (max-width: 991.98px) {
+        .dashboard-container {
+            padding: 18px 14px;
+            min-height: auto;
+        }
+
+        .dashboard-heading {
+            padding-left: 0;
+            margin-bottom: 14px;
+        }
+
+        .dashboard-heading h2 {
+            font-size: 1.7rem;
+        }
+
+        .dashboard-heading p {
+            font-size: 0.95rem;
+        }
+
+        .card .card-header,
+        .card .card-body {
+            padding: 16px;
+        }
+
+        .table-responsive {
+            margin: 0 -2px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .dashboard-container {
+            padding: 12px 0 4px;
+            background: transparent;
+        }
+
+        .dashboard-heading h2 {
+            font-size: 1.45rem;
+            line-height: 1.2;
+        }
+
+        .dashboard-heading p {
+            font-size: 0.9rem;
+        }
+
+        .stat-card .card-body {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .stat-card .stats-number {
+            font-size: 1.6rem;
+        }
+
+        .stat-card .icon-box {
+            width: 48px;
+            height: 48px;
+        }
+
+        .card .card-header,
+        .card .card-body {
+            padding: 14px;
+        }
+
+        .table thead th,
+        .table tbody td {
+            padding: 10px 12px;
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+
+        .dashboard-section-title {
+            font-size: 1.15rem;
+            margin-bottom: 12px !important;
+        }
+    }
 </style>
 
 
@@ -322,7 +401,7 @@ if ($user) {
         @if($announcements->count() > 0)
         <div class="row mb-5">
             <div class="col-12 mb-4">
-                <h3 class="mb-4" style="color: #1e293b; font-weight: 600;">
+                <h3 class="mb-4 dashboard-section-title">
                     <i class="fas fa-bullhorn me-2" style="color: #667eea;"></i>Recent Announcements
                 </h3>
             </div>
@@ -346,7 +425,7 @@ if ($user) {
         @if($announcementdocuments->count() > 0)
         <div class="row">
             <div class="col-12 mb-4">
-                <h3 class="mb-4" style="color: #1e293b; font-weight: 600;">
+                <h3 class="mb-4 dashboard-section-title">
                     <i class="fas fa-file-alt me-2" style="color: #667eea;"></i>Document Announcements
                 </h3>
             </div>

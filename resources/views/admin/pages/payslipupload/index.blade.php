@@ -7,6 +7,61 @@
         width: 250px !important;
         padding: 10px !important;
     }
+
+    .payslip-heading {
+        padding-left: 10px;
+        padding-top: 0;
+    }
+
+    .payslip-action-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .payslip-action-btn {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 575.98px) {
+        .payslip-heading {
+            padding-left: 0 !important;
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 14px;
+        }
+
+        .payslip-heading > .d-flex.align-items-center {
+            width: 100%;
+            align-items: flex-start !important;
+        }
+
+        .payslip-heading > .d-flex.align-items-center > div:last-child {
+            min-width: 0;
+        }
+
+        .payslip-heading h4 {
+            font-size: 1.35rem !important;
+            line-height: 1.2;
+        }
+
+        .payslip-heading .me-3 {
+            margin-right: 12px !important;
+        }
+
+        .payslip-action-group {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .payslip-action-btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            padding: 12px 16px !important;
+        }
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
@@ -16,7 +71,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
+    <div class="d-flex justify-content-between align-items-center mb-3 payslip-heading">
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <i class="fas fa-file-pdf fa-2x" style="color: #1f2937;"></i>
@@ -26,12 +81,12 @@
                 <p class="text-muted mb-0" style="font-size: 0.9rem;">Manage employee payslip assignments</p>
             </div>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('payslipupload.create') }}" class="btn btn-secondary">
+        <div class="payslip-action-group">
+            <a href="{{ route('payslipupload.create') }}" class="btn btn-secondary payslip-action-btn">
                 <i class="fas fa-upload me-2"></i>Upload PDF
             </a>
             @can('unassignPage payslipupload')
-            <a href="{{ route('payslipupload.unassignPage') }}" class="btn btn-secondary">
+            <a href="{{ route('payslipupload.unassignPage') }}" class="btn btn-secondary payslip-action-btn">
                 <i class="fas fa-users me-2"></i>View Unassigned Employees
             </a>
             @endcan

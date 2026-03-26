@@ -9,6 +9,43 @@
 <meta name="flash-error" content="{{ session('error') }}">
 @endif
 
+<style>
+    .branch-heading {
+        padding-left: 10px;
+        padding-top: 0;
+    }
+
+    .branch-action-btn {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 575.98px) {
+        .branch-heading {
+            padding-left: 0 !important;
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 14px;
+        }
+
+        .branch-heading > .d-flex.align-items-center {
+            width: 100%;
+            align-items: flex-start !important;
+        }
+
+        .branch-heading h4 {
+            font-size: 1.35rem !important;
+            line-height: 1.2;
+        }
+
+        .branch-action-btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            padding: 12px 16px !important;
+        }
+    }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
 
@@ -51,7 +88,7 @@
         </script>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
+    <div class="d-flex justify-content-between align-items-center mb-3 branch-heading">
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <i class="fas fa-building fa-2x" style="color: #1f2937;"></i>
@@ -61,7 +98,7 @@
                 <p class="text-muted mb-0" style="font-size: 0.9rem;">Manage company branch locations</p>
             </div>
         </div>
-        <a href="{{ route('branch.create') }}" class="btn btn-secondary">
+        <a href="{{ route('branch.create') }}" class="btn btn-secondary branch-action-btn">
             <i class="fas fa-plus me-2"></i>Add Branch
         </a>
     </div>

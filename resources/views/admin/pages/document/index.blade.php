@@ -221,10 +221,70 @@
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         color: #ffffff;
     }
+
+    .document-page-heading {
+        padding-left: 10px;
+        padding-top: 0;
+    }
+
+    .document-action-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .document-action-btn {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 575.98px) {
+        .document-page-heading {
+            padding-left: 0 !important;
+            align-items: flex-start !important;
+        }
+
+        .document-page-heading h4 {
+            font-size: 1.35rem !important;
+            line-height: 1.2;
+        }
+
+        .filter-section {
+            padding: 16px;
+        }
+
+        .document-action-group {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .document-action-btn,
+        .filter-dropdown-toggle {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            padding: 12px 16px !important;
+        }
+
+        .filter-dropdown-menu {
+            min-width: unset;
+            width: min(100vw - 48px, 320px);
+            padding: 16px;
+        }
+
+        .status-filter-group {
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .status-radio-group {
+            gap: 14px;
+        }
+    }
 </style>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
+    <div class="d-flex justify-content-between align-items-center mb-3 document-page-heading">
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <i class="fas fa-file-alt fa-2x" style="color: #1f2937;"></i>
@@ -280,12 +340,12 @@
                 <div class="row align-items-center">
                     <!-- Left: Primary actions -->
                     <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-                        <div class="d-flex gap-2" style="flex-wrap: nowrap;">
-                            <a href="{{ route('document.create') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                        <div class="document-action-group">
+                            <a href="{{ route('document.create') }}" class="btn btn-secondary document-action-btn">
                                 <i class="fas fa-plus me-2"></i>Add Document
                             </a>
                             @if(auth()->user()->role != 'Employee')
-                            <a href="{{ route('accouncementdocument.index') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                            <a href="{{ route('accouncementdocument.index') }}" class="btn btn-secondary document-action-btn">
                                 <i class="fas fa-file-request me-2"></i>Requested Document
                             </a>
                             @endif

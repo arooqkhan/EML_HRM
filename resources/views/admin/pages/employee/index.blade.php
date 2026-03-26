@@ -22,26 +22,50 @@
     }
 
 
-    /* DataTables wrappers often clip dropdowns */
-.dataTables_wrapper,
-.dataTables_scroll,
-.dataTables_scrollBody,
-.dataTables_scrollHead,
-.table-responsive {
-    overflow: visible !important;
-}
+    .employee-table-scroll {
+        width: 100%;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+    }
 
-/* If any parent has position/overflow issues */
-.widget-content-area,
-.statbox,
-.widget-content {
-    overflow: visible !important;
-}
+    .employee-table-scroll table {
+        min-width: 920px;
+    }
 
-/* Dropdown on top */
-.dropdown-menu {
-    z-index: 9999 !important;
-}
+    /* Keep dropdowns visible without breaking horizontal scroll */
+    .dataTables_wrapper,
+    .dataTables_scroll,
+    .dataTables_scrollBody,
+    .dataTables_scrollHead {
+        overflow: visible !important;
+    }
+
+    .widget-content-area,
+    .statbox,
+    .widget-content {
+        overflow: visible !important;
+    }
+
+    .dropdown-menu {
+        z-index: 9999 !important;
+    }
+
+    @media (max-width: 575.98px) {
+        .employee-page-heading {
+            align-items: flex-start !important;
+            padding-left: 0 !important;
+        }
+
+        .employee-page-heading h4 {
+            font-size: 1.35rem !important;
+        }
+
+        .employee-table-scroll {
+            margin: 0 -2px;
+        }
+    }
 
 </style>
 
@@ -65,7 +89,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <div class="col-lg-12">
-    <div class="d-flex align-items-center mb-4" style="padding-left: 10px;">
+    <div class="d-flex align-items-center mb-4 employee-page-heading" style="padding-left: 10px;">
         <div class="me-3">
             <i class="fas fa-users fa-2x" style="color: #1f2937;"></i>
         </div>
@@ -143,98 +167,99 @@
 
 
             <!-- Employee Table -->
-            <table id="style-2" class="table table-striped align-middle style-2 dt-table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>User Email</th>
-                        <th>Designation</th>
-                        <th>EmployeeID</th>
-                        <th>Role</th>
-                        <th class="text-center col-actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($employees as $employee)
+            <div class="employee-table-scroll">
+                <table id="style-2" class="table table-striped align-middle style-2 dt-table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>User Email</th>
+                            <th>Designation</th>
+                            <th>EmployeeID</th>
+                            <th>Role</th>
+                            <th class="text-center col-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($employees as $employee)
 
-                    {{-- Skip if role is admin --}}
-                    @if($employee->role === 'admin')
-                    @continue
-                    @endif
+                        {{-- Skip if role is admin --}}
+                        @if($employee->role === 'admin')
+                        @continue
+                        @endif
 
-                    <tr data-branch="{{ $employee->branch }}">
-                        <td>{{ $employee->id }}</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                @if($employee->image)
-                                <img src="{{ asset($employee->image) }}" class="rounded-circle profile-img me-3" alt="Employee Image">
-                                @else
-                                <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img me-3" alt="Employee Image">
-                                @endif
-                                <div>
-                                    <strong style="color: #1e293b; font-weight: 600;">{{ $employee->first_name }} {{ $employee->last_name }}</strong>
+                        <tr data-branch="{{ $employee->branch }}">
+                            <td>{{ $employee->id }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @if($employee->image)
+                                    <img src="{{ asset($employee->image) }}" class="rounded-circle profile-img me-3" alt="Employee Image">
+                                    @else
+                                    <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img me-3" alt="Employee Image">
+                                    @endif
+                                    <div>
+                                        <strong style="color: #1e293b; font-weight: 600;">{{ $employee->first_name }} {{ $employee->last_name }}</strong>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <i class="fas fa-envelope me-2" style="color: #64748b;"></i>
-                            <span style="color: #475569;">{{ $employee->user->email }}</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-info" style="background: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #c7d2fe;">
-                                {{ $employee->designation ?: 'N/A' }}
-                            </span>
-                        </td>
-                        <td>
-                            <strong style="color: #0f172a; font-weight: 600;">#{{ $employee->employee_id }}</strong>
-                        </td>
-                        <td>
-                            <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 6px 10px; border-radius: 6px; font-weight: 600;">
-                                {{ ucfirst($employee->role) }}
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $employee->id }}" data-toggle="dropdown" data-bs-toggle="dropdown" data-boundary="viewport" data-bs-boundary="viewport" aria-expanded="false" style="border: 2px solid #e2e8f0; color: #64748b; padding: 8px 14px; border-radius: 8px; background: #ffffff;">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $employee->id }}">
-                                    @if($employee->role !== 'admin')
-                                        @can('update employee')
+                            </td>
+                            <td>
+                                <i class="fas fa-envelope me-2" style="color: #64748b;"></i>
+                                <span style="color: #475569;">{{ $employee->user->email }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info" style="background: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #c7d2fe;">
+                                    {{ $employee->designation ?: 'N/A' }}
+                                </span>
+                            </td>
+                            <td>
+                                <strong style="color: #0f172a; font-weight: 600;">#{{ $employee->employee_id }}</strong>
+                            </td>
+                            <td>
+                                <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 6px 10px; border-radius: 6px; font-weight: 600;">
+                                    {{ ucfirst($employee->role) }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $employee->id }}" data-toggle="dropdown" data-bs-toggle="dropdown" data-boundary="viewport" data-bs-boundary="viewport" aria-expanded="false" style="border: 2px solid #e2e8f0; color: #64748b; padding: 8px 14px; border-radius: 8px; background: #ffffff;">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $employee->id }}">
+                                        @if($employee->role !== 'admin')
+                                            @can('update employee')
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('employee.edit', $employee->id) }}">
+                                                    <i class="fas fa-edit me-2"></i> Edit
+                                                </a>
+                                            </li>
+                                            @endcan
+                                        @endif
+
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('employee.edit', $employee->id) }}">
-                                                <i class="fas fa-edit me-2"></i> Edit
+                                            <a class="dropdown-item" href="{{ route('employee.show', $employee->id) }}">
+                                                <i class="fas fa-eye me-2"></i> View Details
                                             </a>
                                         </li>
-                                        @endcan
-                                    @endif
 
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('employee.show', $employee->id) }}">
-                                            <i class="fas fa-eye me-2"></i> View Details
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('documents.showByEmployee', $employee->id) }}">
+                                                <i class="fas fa-file-alt me-2"></i> Documents
+                                            </a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('documents.showByEmployee', $employee->id) }}">
-                                            <i class="fas fa-file-alt me-2"></i> Documents
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('attendance.show', $employee->id) }}">
+                                                <i class="fas fa-calendar-check me-2"></i> Attendance
+                                            </a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('attendance.show', $employee->id) }}">
-                                            <i class="fas fa-calendar-check me-2"></i> Attendance
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('payroll.showWithEmployee', [0, $employee->id, $employee->first_name, $employee->last_name]) }}">
+                                                <i class="fas fa-dollar-sign me-2"></i> Payslip
+                                            </a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('payroll.showWithEmployee', [0, $employee->id, $employee->first_name, $employee->last_name]) }}">
-                                            <i class="fas fa-dollar-sign me-2"></i> Payslip
-                                        </a>
-                                    </li>
-
-                                        
+                                            
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" class="d-inline">
@@ -245,24 +270,23 @@
                                                 </button>
                                             </form>
                                         </li>
-                                     
-                                  
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" class="text-center" style="padding: 60px 20px !important;">
-                            <i class="fas fa-users fa-4x mb-3" style="color: #cbd5e1;"></i>
-                            <p style="font-size: 1.1rem; color: #94a3b8; margin: 0;">No employee records found.</p>
-                            <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">Add your first employee to get started.</p>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center" style="padding: 60px 20px !important;">
+                                <i class="fas fa-users fa-4x mb-3" style="color: #cbd5e1;"></i>
+                                <p style="font-size: 1.1rem; color: #94a3b8; margin: 0;">No employee records found.</p>
+                                <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">Add your first employee to get started.</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
         </div>
     </div>

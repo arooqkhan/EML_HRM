@@ -72,6 +72,41 @@
         background-color: #138496;
         border-color: #117a8b;
     }
+
+    .announcement-heading {
+        padding-left: 10px;
+        padding-top: 0;
+    }
+
+    .announcement-action-btn {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 575.98px) {
+        .announcement-heading {
+            padding-left: 0 !important;
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 14px;
+        }
+
+        .announcement-heading > .d-flex.align-items-center {
+            width: 100%;
+            align-items: flex-start !important;
+        }
+
+        .announcement-heading h4 {
+            font-size: 1.35rem !important;
+            line-height: 1.2;
+        }
+
+        .announcement-action-btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            padding: 12px 16px !important;
+        }
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
@@ -125,7 +160,7 @@
         </script>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
+    <div class="d-flex justify-content-between align-items-center mb-3 announcement-heading">
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <i class="fas fa-bullhorn fa-2x" style="color: #1f2937;"></i>
@@ -136,7 +171,7 @@
             </div>
             </div>
             @can('create announcements')
-        <a href="{{ route('announcements.create') }}" class="btn btn-secondary">
+        <a href="{{ route('announcements.create') }}" class="btn btn-secondary announcement-action-btn">
             <i class="fas fa-plus me-2"></i>Add Announcement
         </a>
             @endcan
