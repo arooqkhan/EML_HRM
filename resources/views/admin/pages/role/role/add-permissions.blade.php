@@ -1,7 +1,8 @@
 @extends('admin.master.main')
 
 @section('content')
-<div class="content">
+@include('admin.pages.role.partials.mobile-fixes')
+<div class="content role-mobile-content">
     <nav class="mb-2" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
@@ -158,7 +159,7 @@
                                     @endphp
 
                                     <div class="card mb-4 border">
-                                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <div class="card-header bg-light permission-section-header">
                                             <h5 class="mb-0 text-primary">{{ $module }}</h5>
                                             <button type="button"
                                                     class="btn btn-sm btn-outline-primary section-toggle-btn"

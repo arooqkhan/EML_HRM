@@ -155,10 +155,61 @@
 
     /* Profile Image Styling */
     .profile-img { width: 50px; height: 50px; margin-right: 10px; object-fit: cover; border-radius: 50%; }
+
+    .request-doc-heading {
+        padding-left: 10px;
+        padding-top: 0;
+    }
+
+    .request-doc-action-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .request-doc-action-btn {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 575.98px) {
+        .request-doc-heading {
+            padding-left: 0 !important;
+            align-items: flex-start !important;
+        }
+
+        .request-doc-heading h4 {
+            font-size: 1.35rem !important;
+            line-height: 1.2;
+        }
+
+        .filter-section {
+            padding: 16px;
+        }
+
+        .request-doc-action-group {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .request-doc-action-btn,
+        .filter-dropdown-toggle {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            padding: 12px 16px !important;
+        }
+
+        .filter-dropdown-menu {
+            min-width: unset;
+            width: min(100vw - 48px, 320px);
+            padding: 16px;
+        }
+    }
 </style>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
+    <div class="d-flex justify-content-between align-items-center mb-3 request-doc-heading">
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <i class="fas fa-file-request fa-2x" style="color: #1f2937;"></i>
@@ -211,13 +262,13 @@
                 <div class="row align-items-center">
                     <!-- Left: Primary actions -->
                     <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-                        <div class="d-flex gap-2" style="flex-wrap: nowrap;">
+                        <div class="request-doc-action-group">
             @can('create announcementsdocument')
-                            <a href="{{ route('accouncementdocument.create') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                            <a href="{{ route('accouncementdocument.create') }}" class="btn btn-secondary request-doc-action-btn">
                                 <i class="fas fa-plus me-2"></i>Add Request Document
                             </a>
             @endcan
-                            <a href="javascript:void(0)" onclick="history.back()" class="btn btn-secondary" style="white-space: nowrap;">
+                            <a href="javascript:void(0)" onclick="history.back()" class="btn btn-secondary request-doc-action-btn">
                                 <i class="fas fa-arrow-left me-2"></i>Back
                             </a>
                         </div>

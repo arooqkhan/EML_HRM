@@ -1,6 +1,7 @@
 @extends('admin.master.main')
 @section('content')
-<div class="content">
+@include('admin.pages.role.partials.mobile-fixes')
+<div class="content role-mobile-content">
 
     <nav class="mb-2" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
@@ -9,7 +10,7 @@
             <li class="breadcrumb-item active">Form</li>
         </ol>
     </nav>
-    <div class="container mt-5">
+    <div class="container mt-5 btn-group-mobile">
         <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
         <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
         <a href="{{ url('users') }}" class="btn btn-warning mx-1">Users</a>
@@ -53,6 +54,7 @@
                     </div>
                     <div class="card-body">
 
+                        <div class="role-table-scroll">
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -89,6 +91,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
 
                     </div>
                 </div>

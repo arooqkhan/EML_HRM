@@ -73,6 +73,13 @@
 
     <!-- Premium Global Table & UI Styles -->
     <style>
+        :root {
+            --admin-sidebar-width: 276px;
+            --admin-sidebar-collapsed-width: 100px;
+            --admin-header-height: 74px;
+            --admin-content-gutter: 24px;
+        }
+
         /* Remove outer scrollbar - hide body/html scrollbar */
         html, body {
             overflow-x: hidden !important;
@@ -127,6 +134,119 @@
         /* Keep main content area scrollable but without outer scrollbar */
         .main-content {
             overflow-y: visible !important;
+        }
+
+        .admin-dashboard-shell {
+            background: #f8fafc;
+        }
+
+        .admin-main-container {
+            position: relative;
+            min-height: 100vh;
+            padding-top: calc(var(--admin-header-height) + 10px);
+        }
+
+        .header-container {
+            position: fixed !important;
+            top: 12px;
+            left: calc(var(--admin-sidebar-width) + 12px);
+            width: calc(100% - var(--admin-sidebar-width) - 24px);
+            z-index: 1035 !important;
+            transition: left 0.3s ease, width 0.3s ease;
+        }
+
+        .header-container .header {
+            min-height: var(--admin-header-height);
+            padding: 0 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 18px 40px -26px rgba(15, 23, 42, 0.35);
+        }
+
+        .admin-main-content {
+            margin-left: var(--admin-sidebar-width);
+            width: calc(100% - var(--admin-sidebar-width));
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .layout-px-spacing {
+            padding: 0 var(--admin-content-gutter) var(--admin-content-gutter);
+        }
+
+        .middle-content.container-xxl {
+            max-width: 100%;
+        }
+
+        .row.layout-top-spacing {
+            --bs-gutter-x: 1.25rem;
+            --bs-gutter-y: 1.25rem;
+            margin-top: 0;
+        }
+
+        .admin-brand-strip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .admin-brand-title {
+            margin: 0 !important;
+            font-size: clamp(1rem, 2vw, 1.35rem);
+            font-weight: 700;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 992px) {
+            .header-container,
+            .header-container.container-xxl {
+                position: fixed !important;
+                top: 12px !important;
+                left: calc(var(--admin-sidebar-width) + 12px) !important;
+                width: calc(100% - var(--admin-sidebar-width) - 24px) !important;
+                margin: 0 !important;
+                transform: none !important;
+            }
+
+            body.sidebar-collapsed .header-container,
+            body.sidebar-collapsed .header-container.container-xxl {
+                left: calc(var(--admin-sidebar-collapsed-width) + 12px) !important;
+                width: calc(100% - var(--admin-sidebar-collapsed-width) - 24px) !important;
+            }
+        }
+
+        body.sidebar-collapsed .header-container {
+            left: calc(var(--admin-sidebar-collapsed-width) + 12px);
+            width: calc(100% - var(--admin-sidebar-collapsed-width) - 24px);
+        }
+
+        body.sidebar-collapsed .admin-main-content {
+            margin-left: var(--admin-sidebar-collapsed-width);
+            width: calc(100% - var(--admin-sidebar-collapsed-width));
+        }
+
+        body.sidebar-mobile-open {
+            overflow: hidden !important;
+        }
+
+        body.sidebar-mobile-open .overlay {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.42);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            z-index: 1028;
         }
         
         /* Premium Global Table Styles */
@@ -406,6 +526,45 @@
         .dataTables_wrapper .row {
             margin-left: 0 !important;
             margin-right: 0 !important;
+        }
+
+        .table-responsive,
+        .widget-content-area .table-responsive,
+        .card .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-responsive table,
+        .widget-content-area table,
+        .card table {
+            min-width: 100%;
+        }
+
+        form .row {
+            --bs-gutter-y: 1rem;
+        }
+
+        form .card,
+        form .widget-content-area,
+        .form-section-card {
+            overflow: visible;
+        }
+
+        .form-control,
+        .form-select,
+        textarea.form-control,
+        input.form-control,
+        select.form-control {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .btn,
+        button[type="submit"],
+        button[type="button"] {
+            touch-action: manipulation;
         }
         .dt--top-section .row > [class^="col-"],
         .dt--top-section .row > [class*=" col-"],
@@ -903,6 +1062,204 @@
         .swal2-popup[style*="background: #10b981"] .swal2-title,
         .swal2-popup.swal2-toast[style*="background"] .swal2-title {
             color: #ffffff !important;
+        }
+
+        @media (max-width: 991.98px) {
+            :root {
+                --admin-content-gutter: 16px;
+            }
+
+            .admin-main-container {
+                padding-top: calc(var(--admin-header-height) + 8px);
+            }
+
+            .header-container {
+                top: 8px;
+                left: 12px !important;
+                width: calc(100% - 24px) !important;
+            }
+
+            .header-container .header {
+                min-height: 66px;
+                padding: 0 14px;
+                border-radius: 16px;
+            }
+
+            .admin-brand-title {
+                max-width: 180px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .admin-main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .layout-px-spacing {
+                padding: 0 var(--admin-content-gutter) var(--admin-content-gutter);
+            }
+
+            .middle-content.container-xxl {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            .widget-content-area,
+            .card,
+            .statbox.widget {
+                border-radius: 14px !important;
+            }
+
+            .dropdown-menu {
+                min-width: 230px;
+                max-width: calc(100vw - 32px);
+            }
+
+            form[method] .d-flex,
+            .card-body .d-flex.justify-content-between,
+            .card-body .d-flex.align-items-center,
+            .widget-content-area .d-flex.justify-content-between {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            form[method] .d-flex > * {
+                min-width: 0;
+            }
+
+            form[method] [style*="max-width"] {
+                max-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            :root {
+                --admin-header-height: 64px;
+                --admin-content-gutter: 12px;
+            }
+
+            .header-container {
+                top: 6px;
+                left: 8px !important;
+                width: calc(100% - 16px) !important;
+            }
+
+            .header-container .header {
+                padding: 0 12px;
+                border-radius: 14px;
+            }
+
+            .admin-brand-title {
+                max-width: 118px;
+                font-size: 0.95rem;
+            }
+
+            .row.layout-top-spacing {
+                --bs-gutter-x: 0.9rem;
+                --bs-gutter-y: 0.9rem;
+            }
+
+            .col-lg-12 h4,
+            .dashboard-heading h2 {
+                font-size: 1.45rem !important;
+                line-height: 1.2;
+            }
+
+            .dashboard-heading p,
+            .text-muted {
+                font-size: 0.92rem !important;
+            }
+
+            .page-link {
+                min-width: 36px !important;
+                padding: 8px 10px !important;
+                font-size: 1rem !important;
+            }
+
+            .dt--top-section,
+            .dt--bottom-section,
+            .d-flex.justify-content-between {
+                padding: 12px !important;
+            }
+
+            .table-responsive {
+                border-radius: 12px;
+            }
+
+            table.style-2 thead th,
+            table.style-1 thead th,
+            table.style-3 thead th,
+            .dataTable thead th,
+            table thead th {
+                font-size: 0.78rem !important;
+                padding: 10px 12px !important;
+                white-space: nowrap;
+            }
+
+            table.style-2 tbody td,
+            table.style-1 tbody td,
+            table.style-3 tbody td,
+            .dataTable tbody td,
+            table tbody td {
+                font-size: 0.84rem !important;
+                padding: 10px 12px !important;
+                white-space: nowrap;
+            }
+
+            form {
+                width: 100%;
+            }
+
+            form.d-flex,
+            form .d-flex,
+            .d-flex.gap-2.align-items-center,
+            .d-flex.align-items-end {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            form .row > [class^="col-"],
+            form .row > [class*=" col-"] {
+                width: 100%;
+            }
+
+            .form-control,
+            .form-select,
+            textarea.form-control,
+            input.form-control,
+            select.form-control {
+                font-size: 16px !important;
+                min-height: 46px;
+            }
+
+            textarea.form-control {
+                min-height: 110px;
+            }
+
+            form .btn,
+            form button[type="submit"],
+            form button[type="button"] {
+                width: 100%;
+            }
+
+            .dataTables_length,
+            .dataTables_filter,
+            .dt-search,
+            .dt-length {
+                width: 100%;
+            }
+
+            .dataTables_filter input,
+            .dt-search input {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+
+            form[method] [style*="max-width"] {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
         }
     </style>
 

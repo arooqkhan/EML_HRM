@@ -9,10 +9,17 @@
         overflow-y: auto;
         overflow-x: visible;
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+        z-index: 1040;
         border-radius: 0;
         width: 276px;
         transition: width 0.3s ease;
+        pointer-events: auto;
+    }
+
+    body.sidebar-mobile-open .sidebar-wrapper {
+        transform: translateX(0);
+        box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35);
+        pointer-events: auto;
     }
 
     /* Collapsed sidebar state */
@@ -34,7 +41,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        z-index: 1001;
+        z-index: 1042;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
     }
@@ -218,12 +225,13 @@
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .sidebar-wrapper {
-            width: 70px !important;
+            width: min(82vw, 300px) !important;
+            transform: translateX(-105%);
+            transition: transform 0.28s ease, width 0.3s ease;
+            z-index: 1045;
         }
 
-        .nav-logo h4,
-        .profile-content,
-        .menu span {
+        .nav-logo h4 {
             display: none;
         }
 
@@ -232,12 +240,56 @@
         }
 
         .menu a {
-            justify-content: center;
-            padding: 15px;
+            justify-content: flex-start;
+            padding: 14px 18px;
         }
 
         .menu svg {
-            margin-right: 0;
+            margin-right: 14px;
+        }
+
+        .menu span,
+        .profile-name,
+        .profile-designation {
+            display: block !important;
+        }
+
+        .sidebar-wrapper.collapsed {
+            width: min(82vw, 300px) !important;
+        }
+
+        .sidebar-wrapper.collapsed .menu a {
+            justify-content: flex-start !important;
+            padding: 14px 18px !important;
+        }
+
+        .sidebar-wrapper.collapsed .menu a div {
+            justify-content: flex-start !important;
+        }
+
+        .sidebar-wrapper.collapsed .menu svg,
+        .sidebar-wrapper.collapsed .menu a svg,
+        .sidebar-wrapper.collapsed .menu a div svg,
+        .sidebar-wrapper.collapsed svg.feather,
+        .sidebar-wrapper.collapsed .menu i {
+            margin-right: 14px !important;
+            width: 22px !important;
+            height: 22px !important;
+            min-width: 22px !important;
+            min-height: 22px !important;
+        }
+
+        .sidebar-toggle {
+            right: -16px;
+            top: 18px;
+        }
+
+        body.sidebar-mobile-open .sidebar-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        body.sidebar-mobile-open .header-container {
+            z-index: 1030 !important;
         }
     }
 
@@ -933,60 +985,126 @@
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarWrapper = document.getElementById('sidebarWrapper');
     const sidebarToggle = document.getElementById('sidebarToggle');
-    
-    // Check if sidebar state is saved in localStorage
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    if (isCollapsed) {
-        sidebarWrapper.classList.add('collapsed');
+    const overlay = document.querySelector('.overlay');
+    const desktopBreakpoint = 992;
+
+    if (!sidebarWrapper) {
+        return;
     }
-    
-    // Toggle sidebar on button click
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebarWrapper.classList.toggle('collapsed');
-            
-            // Save state to localStorage
-            const collapsed = sidebarWrapper.classList.contains('collapsed');
-            localStorage.setItem('sidebarCollapsed', collapsed);
-            
-            // Adjust main content margin
-            adjustContentMargin();
-        });
+
+    function isMobileView() {
+        return window.innerWidth < desktopBreakpoint;
     }
-    
-    // Function to adjust main content margin based on sidebar state
+
+    function applyCollapsedState(collapsed) {
+        sidebarWrapper.classList.toggle('collapsed', collapsed);
+        document.body.classList.toggle('sidebar-collapsed', collapsed);
+    }
+
+    function closeMobileSidebar() {
+        document.body.classList.remove('sidebar-mobile-open');
+    }
+
     function adjustContentMargin() {
         const content = document.getElementById('content');
         const headerContainer = document.querySelector('.header-container');
-        
+
+        if (isMobileView()) {
+            document.body.classList.remove('sidebar-collapsed');
+
+            if (content) {
+                content.style.marginLeft = '0';
+                content.style.width = '100%';
+                content.style.transition = 'margin-left 0.3s ease, width 0.3s ease';
+            }
+
+            if (headerContainer) {
+                headerContainer.style.left = '12px';
+                headerContainer.style.width = 'calc(100% - 24px)';
+                headerContainer.style.transition = 'left 0.3s ease, width 0.3s ease';
+            }
+
+            return;
+        }
+
         const isCollapsed = sidebarWrapper.classList.contains('collapsed');
-        
-        // Sidebar widths (matching CSS values)
-        const sidebarExpandedWidth = 280; // Expanded sidebar width
-        const sidebarCollapsedWidth = 100; // Collapsed sidebar width
-        
-        // Adjust main content margin
+        const sidebarExpandedWidth = 276;
+        const sidebarCollapsedWidth = 100;
         const contentMargin = isCollapsed ? sidebarCollapsedWidth + 'px' : sidebarExpandedWidth + 'px';
+
         if (content) {
             content.style.marginLeft = contentMargin;
-            content.style.transition = 'margin-left 0.3s ease';
+            content.style.width = 'calc(100% - ' + contentMargin + ')';
+            content.style.transition = 'margin-left 0.3s ease, width 0.3s ease';
         }
-        
-        // Adjust header container - uses 'left' property (as per CSS structure.css)
+
         if (headerContainer) {
-            const headerLeft = isCollapsed ? (sidebarCollapsedWidth + 3) + 'px' : (sidebarExpandedWidth - 1) + 'px';
-            const headerWidth = isCollapsed ? 'calc(100% - ' + (sidebarCollapsedWidth + 48) + 'px)' : 'calc(100% - ' + (sidebarExpandedWidth + 48) + 'px)';
-            
+            const headerLeft = isCollapsed ? (sidebarCollapsedWidth + 12) + 'px' : (sidebarExpandedWidth + 12) + 'px';
+            const headerWidth = isCollapsed ? 'calc(100% - ' + (sidebarCollapsedWidth + 24) + 'px)' : 'calc(100% - ' + (sidebarExpandedWidth + 24) + 'px)';
+
             headerContainer.style.left = headerLeft;
             headerContainer.style.width = headerWidth;
             headerContainer.style.transition = 'left 0.3s ease, width 0.3s ease';
         }
     }
-    
-    // Initialize content margin
-    adjustContentMargin();
-    
-    // Adjust on window resize
-    window.addEventListener('resize', adjustContentMargin);
+
+    function syncSidebarMode() {
+        const storedCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+        if (isMobileView()) {
+            applyCollapsedState(false);
+            closeMobileSidebar();
+        } else {
+            applyCollapsedState(storedCollapsed);
+        }
+
+        adjustContentMargin();
+    }
+
+    syncSidebarMode();
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            if (isMobileView()) {
+                document.body.classList.toggle('sidebar-mobile-open');
+                return;
+            }
+
+            const collapsed = !sidebarWrapper.classList.contains('collapsed');
+            applyCollapsedState(collapsed);
+            localStorage.setItem('sidebarCollapsed', collapsed);
+            adjustContentMargin();
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeMobileSidebar);
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeMobileSidebar();
+        }
+    });
+
+    window.addEventListener('resize', syncSidebarMode);
+
+    sidebarWrapper.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (isMobileView()) {
+                closeMobileSidebar();
+            }
+        });
+    });
+
+    const headerToggle = document.querySelector('.sidebarCollapse');
+    if (headerToggle) {
+        headerToggle.addEventListener('click', function(event) {
+            if (isMobileView()) {
+                event.preventDefault();
+                document.body.classList.toggle('sidebar-mobile-open');
+            }
+        });
+    }
 });
 </script>

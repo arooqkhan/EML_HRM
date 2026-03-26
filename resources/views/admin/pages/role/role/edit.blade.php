@@ -1,8 +1,8 @@
 @extends('admin.master.main')
 @section('content')
+@include('admin.pages.role.partials.mobile-fixes')
 
-
-<div class="content">
+<div class="content role-mobile-content">
   <nav class="mb-2" aria-label="breadcrumb">
     <ol class="breadcrumb mb-0">
       <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
