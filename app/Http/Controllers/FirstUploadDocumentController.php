@@ -10,16 +10,41 @@ class FirstUploadDocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
+ public function index()
 {
-    
     $user = auth()->user();
 
     $employee = Employee::where('id', $user->employee_id)->first();
 
-    $uploadedDocs = \App\Models\Document::where('employee_id', $employee->id)->pluck('name')->toArray();
+    if (!$employee) {
+        return back()->with('error', 'Employee not found');
+    }
 
-    $pendingDocs = array_diff($employee->documents ?? [], $uploadedDocs);
+    $uploadedDocs = \App\Models\Document::where('employee_id', $employee->id)
+        ->pluck('name')
+        ->toArray();
+
+    $uploadedDocs = array_filter(array_map('trim', $uploadedDocs));
+
+    $employeeDocumentsRaw = $employee->documents;
+
+    if (is_array($employeeDocumentsRaw)) {
+        $employeeDocs = $employeeDocumentsRaw;
+    } else {
+        $decoded = json_decode($employeeDocumentsRaw, true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $employeeDocs = $decoded;
+        } elseif (!empty($employeeDocumentsRaw)) {
+            $employeeDocs = array(trim($employeeDocumentsRaw));
+        } else {
+            $employeeDocs = array();
+        }
+    }
+
+    $employeeDocs = array_filter(array_map('trim', $employeeDocs));
+
+    $pendingDocs = array_diff($employeeDocs, $uploadedDocs);
 
     return view('admin.pages.firstuploaddocument.index', compact('employee', 'pendingDocs'));
 }

@@ -413,13 +413,17 @@
             </label>
             <div class="input-icon-wrapper">
                 <i class="fas fa-pound-sign"></i>
-                <input type="number" 
-                       class="form-control" 
-                       id="inputSalary" 
-                       name="salary" 
-                       placeholder="Enter Salary" 
-                       value="{{ old('salary') }}" 
-                       required>
+                
+              <input type="number"
+       class="form-control"
+       id="inputSalary"
+       name="salary"
+       placeholder="Enter Salary"
+       value="{{ old('salary') }}"
+       min="0"
+       step="0.01"
+       required>
+
             </div>
             @if ($errors->has('salary'))
                 <span class="text-danger">{{ $errors->first('salary') }}</span>

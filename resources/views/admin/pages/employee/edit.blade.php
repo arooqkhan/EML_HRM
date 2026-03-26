@@ -388,6 +388,8 @@
                        name="salary"
                        placeholder="Enter Salary"
                        value="{{ old('salary', $employee->salary) }}"
+                        min="0"
+                        step="0.01"
                        required>
             </div>
 
