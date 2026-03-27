@@ -164,6 +164,45 @@
         border: 1px solid rgba(0, 0, 0, 0.05);
         padding: 0.75rem 1.25rem;
     }
+
+    .leave-page-header {
+        padding-left: 10px;
+        padding-top: 0;
+        gap: 16px;
+    }
+
+    .leave-header-info {
+        gap: 16px;
+        min-width: 0;
+    }
+
+    .leave-action-btn {
+        background: #2563eb;
+        border: 1px solid #2563eb;
+        color: #ffffff;
+        border-radius: 14px;
+        padding: 14px 24px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 56px;
+        white-space: nowrap;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+
+    .leave-action-btn:hover {
+        background: #1d4ed8;
+        border-color: #1d4ed8;
+        color: #ffffff;
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
     
     /* Responsive Adjustments */
     @media (max-width: 768px) {
@@ -175,6 +214,18 @@
             margin-right: 0 !important;
             margin-bottom: 15px;
         }
+
+        .leave-page-header {
+            align-items: flex-start !important;
+        }
+
+        .leave-header-info {
+            width: 100%;
+        }
+
+        .leave-action-btn {
+            width: 100%;
+        }
     }
 </style>
 
@@ -184,8 +235,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <div class="col-lg-12">
-    <div class="d-flex justify-content-between align-items-center mb-3" style="padding-left: 10px; padding-top: 0;">
-        <div class="d-flex align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3 leave-page-header">
+        <div class="d-flex align-items-center leave-header-info">
             <div class="me-3">
                 <i class="fas fa-calendar-alt fa-2x" style="color: #1f2937;"></i>
             </div>
@@ -194,8 +245,9 @@
                 <p class="text-muted mb-0" style="font-size: 0.9rem;">Manage leave requests and approvals</p>
             </div>
         </div>
-        <a href="{{ route('leave.create') }}" class="btn btn-secondary">
-            <i class="fas fa-plus-circle me-2"></i> Apply Leave
+        <a href="{{ route('leave.create') }}" class="leave-action-btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Apply Leave</span>
         </a>
     </div>
     <div class="statbox widget box box-shadow">

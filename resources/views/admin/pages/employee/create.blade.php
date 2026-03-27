@@ -37,14 +37,44 @@
         background: rgba(255, 255, 255, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
-        padding: 10px 20px;
-        border-radius: 8px;
+        padding: 12px 18px;
+        border-radius: 14px;
         transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-width: 92px;
+        min-height: 80px;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .form-header .btn i {
+        font-size: 1.25rem;
+        margin: 0 !important;
     }
 
     .form-header .btn:hover {
         background: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
+        color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+        .form-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .form-header .btn {
+            min-width: 88px;
+            min-height: 74px;
+            align-self: flex-end;
+        }
     }
 
     .form-card {
@@ -195,12 +225,25 @@
 
     .document-input-group {
         display: flex;
-        gap: 10px;
+        flex-direction: column;
+        gap: 12px;
         margin-bottom: 12px;
+        width: 100%;
     }
 
     .document-input-group .form-control {
-        flex: 1;
+        width: 100%;
+        min-height: 58px;
+        padding: 14px 18px;
+        font-size: 1rem;
+        color: #1e293b;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        flex: none;
+    }
+
+    .document-input-group .form-control::placeholder {
+        color: #94a3b8;
     }
 
     .btn-add-doc {
@@ -211,6 +254,12 @@
         border-radius: 8px;
         font-weight: 600;
         white-space: nowrap;
+        width: 100%;
+        min-height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
     }
 
     .btn-remove-doc {
@@ -768,7 +817,7 @@
         const input = document.getElementById('document-input');
         const list = document.getElementById('document-list');
 
-        addBtn.addEventListener('click', function() {
+        function addDocument() {
             const value = input.value.trim();
             if (value) {
                 // Create list item
@@ -798,6 +847,15 @@
 
                 // Clear input
                 input.value = '';
+                input.focus();
+            }
+        }
+
+        addBtn.addEventListener('click', addDocument);
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addDocument();
             }
         });
     });
