@@ -37,16 +37,44 @@
         background: rgba(255, 255, 255, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
-        padding: 10px 20px;
-        border-radius: 8px;
+        padding: 12px 18px;
+        border-radius: 14px;
         transition: all 0.3s ease;
         text-decoration: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-width: 92px;
+        min-height: 80px;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .form-header .btn i {
+        font-size: 1.25rem;
+        margin: 0 !important;
     }
 
     .form-header .btn:hover {
         background: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
         color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+        .form-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .form-header .btn {
+            min-width: 88px;
+            min-height: 74px;
+            align-self: flex-end;
+        }
     }
 
     .form-card {
